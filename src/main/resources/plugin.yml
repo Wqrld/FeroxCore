@@ -1,0 +1,13 @@
+name: FeroxCore
+version: 1.0.0
+author: Wqrld
+main: net.wqrld.Ferox.Main
+api-version: 1.12
+softdepend: [PlaceHolderAPI]
+commands:
+   join:
+      description: joins
+      usage: /join
+   pastemap:
+      description: joins
+      usage: /pastes
