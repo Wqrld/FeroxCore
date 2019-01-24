@@ -47,7 +47,7 @@ public static void givearmor(Player p, Color c){
         gamestarted = false;
         Bukkit.broadcastMessage("§9Game ended");
         for(Player p : Bukkit.getOnlinePlayers()){
-            if(teammanager.red.contains(p) || teammanager.blue.contains(p)){
+            if(teammanager.getred().contains(p) || teammanager.getblue().contains(p)){
                 p.getInventory().clear();
                 p.teleport(new Location(world, 89.5, 28, -90.5, 90, 1));
             }
