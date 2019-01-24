@@ -1,16 +1,17 @@
 package net.wqrld.Ferox;
 
 
+import net.wqrld.Ferox.Commands.Joincommand;
+import net.wqrld.Ferox.Commands.Pastemap;
+import net.wqrld.Ferox.Listeners.BreakListener;
+import net.wqrld.Ferox.Listeners.JoinListener;
+import net.wqrld.Ferox.Listeners.Spawnprotection;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import javax.security.auth.login.LoginException;
 import java.io.File;
 
 public class Main extends JavaPlugin  implements Listener {
@@ -29,7 +30,7 @@ public class Main extends JavaPlugin  implements Listener {
         this.getCommand("pastemap").setExecutor(new Pastemap());
         getServer().getPluginManager().registerEvents(new JoinListener(), this);
         getServer().getPluginManager().registerEvents(new BreakListener(), this);
-
+        getServer().getPluginManager().registerEvents(new Spawnprotection(), this);
     }
 
 

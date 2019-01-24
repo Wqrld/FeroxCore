@@ -1,11 +1,13 @@
-package net.wqrld.Ferox;
+package net.wqrld.Ferox.Listeners;
 
+import net.wqrld.Ferox.Main;
+import net.wqrld.Ferox.Managers.MatchManager;
+import net.wqrld.Ferox.Managers.TeamManager;
 import org.bukkit.*;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -29,30 +31,36 @@ public class JoinListener implements Listener{
 
     }
     @EventHandler
-    public void onRightCLick(InventoryClickEvent e){
-        if(e.isRightClick() && e.getCurrentItem().getType() == Material.COMPASS){
-            Bukkit.dispatchCommand(e.getWhoClicked(), "join");
+    public void onRightCLick(PlayerInteractEvent e){
+        if(e.getAction() == Action.RIGHT_CLICK_AIR && e.getItem().getType() == Material.COMPASS){
+            Bukkit.dispatchCommand(e.getPlayer(), "join");
             e.setCancelled(true);
         }
     }
     @EventHandler
     public void blockbreak(BlockBreakEvent e){
-        if(teammanager.getblue().contains(e.getPlayer()) || teammanager.getred().contains(e.getPlayer()) || e.getPlayer().getName() == "Xirial"){
-
+        if(!TeamManager.getblue().contains(e.getPlayer()) && !TeamManager.getred().contains(e.getPlayer()) && !e.getPlayer().getName().equals("Xirial")){
 e.getPlayer().sendMessage("§c§lPlease join using /join.");
-
+//            e.getPlayer().sendMessage("red: " + TeamManager.getred().toString());
+//            e.getPlayer().sendMessage("blue: " + TeamManager.getblue().toString());
+//            e.getPlayer().sendMessage(e.getPlayer().toString());
+           e.setCancelled(true);
+        }
+        if(MatchManager.iswithin(e.getBlock().getLocation(), new Location(world, 82, 20, -81), new Location(world, 94, 35, -100))){
+            e.setCancelled(true);
+            e.getPlayer().sendMessage("You cannot build here");
         }
     }
     World world = Bukkit.getWorld("zenith");
     @EventHandler
-    public void respawn(PlayerInteractEvent e){
+    public void respawn(PlayerRespawnEvent e){
         new BukkitRunnable() {
             @Override public void run() {
-                if(teammanager.getred().contains(e.getPlayer())){
+                if(TeamManager.getred().contains(e.getPlayer())){
 
                     e.getPlayer().teleport(new Location(world, 42.5, 10, -148.5, 1, 1));
                     MatchManager.givearmor(e.getPlayer(), Color.RED);
-                } else if (teammanager.getblue().contains(e.getPlayer())) {
+                } else if (TeamManager.getblue().contains(e.getPlayer())) {
                     e.getPlayer().teleport(new Location(world, 42.5, 10, -32.5, 179, 1));
                     MatchManager.givearmor(e.getPlayer(), Color.BLUE);
                 }else{

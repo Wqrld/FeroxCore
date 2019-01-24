@@ -1,4 +1,4 @@
-package net.wqrld.Ferox;
+package net.wqrld.Ferox.Commands;
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.Vector;
@@ -32,13 +32,12 @@ public class Pastemap implements CommandExecutor {
         Vector to = new Vector(0, 0, 0);
 
 
+      //  try {
+      //      EditSession editSession = ClipboardFormat.findByFile(file).load(file).paste(BukkitUtil.getLocalWorld(Bukkit.getWorld("Spawn")), to);
 
-        try {
-            EditSession editSession = ClipboardFormat.findByFile(file).load(file).paste(BukkitUtil.getLocalWorld(Bukkit.getWorld("Spawn")), to);
-
-        }catch(IOException err){
-            sender.sendMessage("Could not find file");
-        }
+       // }catch(IOException err){
+      //      sender.sendMessage("Could not find file");
+       // }
         sender.sendMessage("Pasting map");
 
 return true;

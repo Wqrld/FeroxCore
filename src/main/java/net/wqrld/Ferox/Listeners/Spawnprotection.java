@@ -1,0 +1,42 @@
+package net.wqrld.Ferox.Listeners;
+
+import net.wqrld.Ferox.Managers.MatchManager;
+import net.wqrld.Ferox.Managers.TeamManager;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+
+public class Spawnprotection implements Listener {
+    World world = Bukkit.getWorld("zenith");
+    @EventHandler
+    public void blockbreak(BlockBreakEvent e){
+        if(!TeamManager.getblue().contains(e.getPlayer()) && !TeamManager.getred().contains(e.getPlayer()) && !e.getPlayer().getName().equals("Xirial")){
+            e.getPlayer().sendMessage("§c§lPlease join using /join.");
+            e.setCancelled(true);
+        }
+
+        if(MatchManager.iswithin(e.getBlock().getLocation(), new Location(world, 82, 20, -81), new Location(world, 94, 35, -100))){
+            e.setCancelled(true);
+            e.getPlayer().sendMessage("You cannot build here");
+        }
+    }
+    @EventHandler
+    public void blockplace(BlockPlaceEvent e){
+        if(!TeamManager.getblue().contains(e.getPlayer()) && !TeamManager.getred().contains(e.getPlayer()) && !e.getPlayer().getName().equals("Xirial")){
+            e.getPlayer().sendMessage("§c§lPlease join using /join.");
+            e.setCancelled(true);
+        }
+
+        if(MatchManager.iswithin(e.getBlock().getLocation(), new Location(world, 82, 20, -81), new Location(world, 94, 35, -100))){
+            e.setCancelled(true);
+            e.getPlayer().sendMessage("You cannot build here");
+        }
+    }
+
+
+
+}
