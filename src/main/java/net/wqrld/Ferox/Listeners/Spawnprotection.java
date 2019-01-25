@@ -2,6 +2,7 @@ package net.wqrld.Ferox.Listeners;
 
 import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.TeamManager;
+import net.wqrld.Ferox.Utils.AreaUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -25,18 +26,18 @@ public class Spawnprotection implements Listener {
                 e.setCancelled(true);
             }
 //spawn
-            if(MatchManager.iswithin(e.getBlock().getLocation(), new Location(world, 82, 20, -81), new Location(world, 94, 35, -100))){
+            if (AreaUtils.iswithin(e.getBlock().getLocation(), new Location(world, 82, 20, -81), new Location(world, 94, 35, -100))) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage("You cannot build here");
             }
             //red
 
-            if (MatchManager.iswithin(e.getBlock().getLocation(), new Location(world, 38, 5, -144), new Location(world, 46, 32, -153))) {
+            if (AreaUtils.iswithin(e.getBlock().getLocation(), new Location(world, 38, 5, -144), new Location(world, 46, 32, -153))) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage("You cannot build here");
             }
             //blue
-            if (MatchManager.iswithin(e.getBlock().getLocation(), new Location(world, 38, 5, -46), new Location(world, 46, 32, -27))) {
+            if (AreaUtils.iswithin(e.getBlock().getLocation(), new Location(world, 38, 5, -46), new Location(world, 46, 32, -27))) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage("You cannot build here");
             }
@@ -51,19 +52,20 @@ public class Spawnprotection implements Listener {
             if(!TeamManager.getblue().contains(e.getPlayer()) && !TeamManager.getred().contains(e.getPlayer()) && !e.getPlayer().getName().equals("Xirial")){
                 e.getPlayer().sendMessage("§c§lPlease join using /join.");
                 e.setCancelled(true);
+                return;
             }
 
-            if(MatchManager.iswithin(e.getBlock().getLocation(), new Location(world, 82, 20, -81), new Location(world, 94, 35, -100))){
+            if (AreaUtils.iswithin(e.getBlock().getLocation(), new Location(world, 82, 20, -81), new Location(world, 94, 35, -100))) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage("You cannot build here");
             }
 
-            if (MatchManager.iswithin(e.getBlock().getLocation(), new Location(world, 38, 5, -144), new Location(world, 46, 32, -153))) {
+            if (AreaUtils.iswithin(e.getBlock().getLocation(), new Location(world, 38, 5, -144), new Location(world, 46, 32, -153))) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage("You cannot build here");
             }
             //blue
-            if (MatchManager.iswithin(e.getBlock().getLocation(), new Location(world, 38, 5, -46), new Location(world, 46, 32, -27))) {
+            if (AreaUtils.iswithin(e.getBlock().getLocation(), new Location(world, 38, 5, -46), new Location(world, 46, 32, -27))) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage("You cannot build here");
             }

@@ -1,4 +1,4 @@
-package net.wqrld.Ferox;
+package net.wqrld.Ferox.Managers;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.wqrld.Ferox.Managers.TeamManager;

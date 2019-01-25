@@ -4,6 +4,9 @@ package net.wqrld.Ferox;
 import net.wqrld.Ferox.Commands.Joincommand;
 import net.wqrld.Ferox.Commands.Pastemap;
 import net.wqrld.Ferox.Listeners.*;
+import net.wqrld.Ferox.Managers.PLH;
+import net.wqrld.Ferox.Managers.RotationManager;
+import net.wqrld.Ferox.Types.Gamemap;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -35,6 +38,7 @@ public class Main extends JavaPlugin  implements Listener {
             Bukkit.broadcastMessage("placeholderapi found");
             new PLH().register();
         }
+        RotationManager.addmap(new Gamemap("Xirial", "Zenith"));
     }
 
 
