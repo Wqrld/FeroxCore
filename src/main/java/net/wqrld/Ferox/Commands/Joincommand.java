@@ -19,14 +19,14 @@ public class Joincommand implements CommandExecutor {
         ((Player) sender).teleport(new Location(world, 42.5, 10, -148.5, 1, 1));
 
 
-        MatchManager.givearmor((Player) sender, Color.RED);
+
         sender.sendMessage("Joined §c§lRED");
     }
     public void addtoblue(CommandSender sender){
         TeamManager.getblue().add((Player) sender);
 
         ((Player) sender).teleport(new Location(world, 42.5, 10, -32.5, 179, 1));
-        MatchManager.givearmor((Player) sender, Color.BLUE);
+
         sender.sendMessage("Joined §9§lBLUE");
     }
 
@@ -45,8 +45,10 @@ if(TeamManager.getblue().contains(sender) || TeamManager.getred().contains(sende
         }else {//random
             if (Math.random() < 0.5) {
                 addtored(sender);
+                MatchManager.givearmor((Player) sender, Color.RED);
             } else {
                 addtoblue(sender);
+                MatchManager.givearmor((Player) sender, Color.BLUE);
 
             }
         }

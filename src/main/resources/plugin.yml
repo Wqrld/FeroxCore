@@ -1,9 +1,9 @@
 name: FeroxCore
-version: 1.0.0
+version: 1.1.0
 author: Wqrld
 main: net.wqrld.Ferox.Main
 api-version: 1.12
-softdepend: [PlaceHolderAPI]
+depend: [PlaceholderAPI]
 commands:
    join:
       description: joins

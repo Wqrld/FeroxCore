@@ -1,16 +1,17 @@
 package net.wqrld.Ferox.Listeners;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.wqrld.Ferox.Main;
 import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.TeamManager;
 import org.bukkit.*;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -37,45 +38,47 @@ public class JoinListener implements Listener{
             e.setCancelled(true);
         }
     }
+
     @EventHandler
-    public void blockbreak(BlockBreakEvent e){
-        if(!TeamManager.getblue().contains(e.getPlayer()) && !TeamManager.getred().contains(e.getPlayer()) && !e.getPlayer().getName().equals("Xirial")){
-e.getPlayer().sendMessage("§c§lPlease join using /join.");
-//            e.getPlayer().sendMessage("red: " + TeamManager.getred().toString());
-//            e.getPlayer().sendMessage("blue: " + TeamManager.getblue().toString());
-//            e.getPlayer().sendMessage(e.getPlayer().toString());
-           e.setCancelled(true);
+    public void onleave(PlayerQuitEvent e) {
+        if (TeamManager.getred().contains(e.getPlayer())) {
+            TeamManager.getred().remove(e.getPlayer());
         }
-        if(MatchManager.iswithin(e.getBlock().getLocation(), new Location(world, 82, 20, -81), new Location(world, 94, 35, -100))){
-            e.setCancelled(true);
-            e.getPlayer().sendMessage("You cannot build here");
+
+        if (TeamManager.getblue().contains(e.getPlayer())) {
+            TeamManager.getblue().remove(e.getPlayer());
         }
-    }
-    World world = Bukkit.getWorld("zenith");
-    @EventHandler
-    public void respawn(PlayerRespawnEvent e){
-        new BukkitRunnable() {
-            @Override public void run() {
-                if(TeamManager.getred().contains(e.getPlayer())){
-
-                    e.getPlayer().teleport(new Location(world, 42.5, 10, -148.5, 1, 1));
-                    MatchManager.givearmor(e.getPlayer(), Color.RED);
-                } else if (TeamManager.getblue().contains(e.getPlayer())) {
-                    e.getPlayer().teleport(new Location(world, 42.5, 10, -32.5, 179, 1));
-                    MatchManager.givearmor(e.getPlayer(), Color.BLUE);
-                }else{
-                    e.getPlayer().teleport(new Location(world, 89.5, 28, -90.5, 90, 1));
-
-                }
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kit halcyon " + e.getPlayer().getName());
-                e.getPlayer().getInventory().addItem(new ItemStack(Material.ARROW, 64));
-
-            }
-        }.runTaskLater(Main.plugin, 10);
-
-
-
 
     }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onChat(AsyncPlayerChatEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+        if (event.getMessage().contains("%")) {
+            event.getPlayer().sendMessage("Please don't use a % sign in your message.");
+            return;
+        }
+        Player player = event.getPlayer();
+        String color = "§f";
+        if (TeamManager.getblue().contains(player)) {
+            color = "§9";
+        }
+        if (TeamManager.getred().contains(player)) {
+            color = "§c";
+        }
+
+
+        String oldformat = color + "%luckperms_meta_prefix%§r" + color + "%player_name%§7> §f";
+        String format = PlaceholderAPI.setPlaceholders(event.getPlayer(), oldformat) + event.getMessage();
+        format = format.replace("%§", "%%§");
+        //.replace("&", "§");
+        event.setFormat(format);
+
+
+
+    }
+
 
 }
