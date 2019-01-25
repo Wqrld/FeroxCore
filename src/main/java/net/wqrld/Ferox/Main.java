@@ -3,10 +3,7 @@ package net.wqrld.Ferox;
 
 import net.wqrld.Ferox.Commands.Joincommand;
 import net.wqrld.Ferox.Commands.Pastemap;
-import net.wqrld.Ferox.Listeners.BreakListener;
-import net.wqrld.Ferox.Listeners.JoinListener;
-import net.wqrld.Ferox.Listeners.RespawnHandler;
-import net.wqrld.Ferox.Listeners.Spawnprotection;
+import net.wqrld.Ferox.Listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -33,6 +30,7 @@ public class Main extends JavaPlugin  implements Listener {
         getServer().getPluginManager().registerEvents(new BreakListener(), this);
         getServer().getPluginManager().registerEvents(new Spawnprotection(), this);
         getServer().getPluginManager().registerEvents(new RespawnHandler(), this);
+        getServer().getPluginManager().registerEvents(new ChatHandler(), this);
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             Bukkit.broadcastMessage("placeholderapi found");
             new PLH().register();

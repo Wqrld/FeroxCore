@@ -8,6 +8,7 @@ import net.wqrld.Ferox.Main;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -42,6 +43,10 @@ public static void givearmor(Player p, Color c){
 
 
     public static void endgame(){
+        ItemStack i = new ItemStack(Material.COMPASS);
+        ItemMeta meta = i.getItemMeta();
+        meta.setDisplayName("Click to join");
+        i.setItemMeta(meta);
         //lock joining
         gamestarted = false;
         Bukkit.broadcastMessage("§9Game ended");
@@ -49,6 +54,9 @@ public static void givearmor(Player p, Color c){
             if(TeamManager.getred().contains(p) || TeamManager.getblue().contains(p)){
                 p.getInventory().clear();
                 p.teleport(new Location(world, 89.5, 28, -90.5, 90, 1));
+
+                //https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fredditpublic.com%2Fimages%2Fb%2Fb2%2FItems_slot_number.png&f=1
+                p.getInventory().setItem(0, i);
             }
         }
 

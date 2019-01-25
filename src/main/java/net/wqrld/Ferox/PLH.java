@@ -24,9 +24,33 @@ public class PLH extends PlaceholderExpansion {
         if (player == null) {
             return null;
         }
-        if (identifier.equalsIgnoreCase("isstaff") || identifier.equalsIgnoreCase("team")) {
+        if (identifier.equalsIgnoreCase("isstaff")) {
             return "true";
         }
+
+        if (identifier.equalsIgnoreCase("nexuscount")) {
+
+            return "1";
+
+        }
+//✅✅✅✘✔
+
+
+        if (identifier.equalsIgnoreCase("team")) {
+
+            if (TeamManager.getblue().contains(player)) {
+                return "blue";
+            } else if (TeamManager.getred().contains(player)) {
+                return "red";
+            } else {
+                return "None";
+            }
+
+
+        }
+
+
+
         if (identifier.equalsIgnoreCase("teams")) {
             return TeamManager.getblue().toString() + " b | r " + TeamManager.getred().toString();
         }

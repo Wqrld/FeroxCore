@@ -5,12 +5,16 @@ import net.wqrld.Ferox.Main;
 import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.TeamManager;
 import org.bukkit.*;
+import org.bukkit.entity.Damageable;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -51,34 +55,29 @@ public class JoinListener implements Listener{
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onChat(AsyncPlayerChatEvent event) {
-        if (event.isCancelled()) {
-            return;
+
+    //@EventHandler
+//    public void ondamage(EntityDamageEvent e){
+//        if(e.getEntityType() == EntityType.PLAYER) {
+//            if (e.getCause() == EntityDamageEvent.DamageCause.VOID) {
+//                e.setDamage(40);
+//            }
+//        }
+//}
+    @EventHandler
+    public void ondeath(PlayerDeathEvent e) {
+        for (ItemStack drop : e.getDrops()) {
+            if (drop.getType() == Material.LEATHER_BOOTS ||
+                    drop.getType() == Material.STONE_SWORD ||
+                    drop.getType() == Material.BOW ||
+                    drop.getType() == Material.DIAMOND_PICKAXE ||
+                    drop.getType() == Material.STONE_AXE ||
+                    drop.getType() == Material.LEATHER_LEGGINGS ||
+                    drop.getType() == Material.LEATHER_CHESTPLATE ||
+                    drop.getType() == Material.LEATHER_HELMET) {
+                e.getDrops().remove(drop);
+
+            }
         }
-        if (event.getMessage().contains("%")) {
-            event.getPlayer().sendMessage("Please don't use a % sign in your message.");
-            return;
-        }
-        Player player = event.getPlayer();
-        String color = "§f";
-        if (TeamManager.getblue().contains(player)) {
-            color = "§9";
-        }
-        if (TeamManager.getred().contains(player)) {
-            color = "§c";
-        }
-
-
-        String oldformat = color + "%luckperms_meta_prefix%§r" + color + "%player_name%§7> §f";
-        String format = PlaceholderAPI.setPlaceholders(event.getPlayer(), oldformat) + event.getMessage();
-        format = format.replace("%§", "%%§");
-        //.replace("&", "§");
-        event.setFormat(format);
-
-
-
     }
-
-
 }
