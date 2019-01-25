@@ -20,6 +20,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ConcurrentModificationException;
+
 public class JoinListener implements Listener{
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
@@ -66,18 +68,22 @@ public class JoinListener implements Listener{
 //}
     @EventHandler
     public void ondeath(PlayerDeathEvent e) {
-        for (ItemStack drop : e.getDrops()) {
-            if (drop.getType() == Material.LEATHER_BOOTS ||
-                    drop.getType() == Material.STONE_SWORD ||
-                    drop.getType() == Material.BOW ||
-                    drop.getType() == Material.DIAMOND_PICKAXE ||
-                    drop.getType() == Material.STONE_AXE ||
-                    drop.getType() == Material.LEATHER_LEGGINGS ||
-                    drop.getType() == Material.LEATHER_CHESTPLATE ||
-                    drop.getType() == Material.LEATHER_HELMET) {
-                e.getDrops().remove(drop);
+        try {
+            for (ItemStack drop : e.getDrops()) {
+                if (drop.getType() == Material.LEATHER_BOOTS ||
+                        drop.getType() == Material.STONE_SWORD ||
+                        drop.getType() == Material.BOW ||
+                        drop.getType() == Material.DIAMOND_PICKAXE ||
+                        drop.getType() == Material.STONE_AXE ||
+                        drop.getType() == Material.LEATHER_LEGGINGS ||
+                        drop.getType() == Material.LEATHER_CHESTPLATE ||
+                        drop.getType() == Material.LEATHER_HELMET) {
+                    e.getDrops().remove(drop);
 
+                }
             }
+        } catch (ConcurrentModificationException i) {
+            Bukkit.getConsoleSender().sendMessage(i.getStackTrace().toString());
         }
     }
 }

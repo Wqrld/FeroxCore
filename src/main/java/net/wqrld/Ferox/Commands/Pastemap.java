@@ -41,5 +41,5 @@ public class Pastemap implements CommandExecutor {
         sender.sendMessage("Pasting map");
 
 return true;
-    };
+    }
 }

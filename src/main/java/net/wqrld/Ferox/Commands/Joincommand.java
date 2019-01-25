@@ -18,7 +18,7 @@ public class Joincommand implements CommandExecutor {
         TeamManager.getred().add((Player) sender);
         ((Player) sender).teleport(new Location(world, 42.5, 10, -148.5, 1, 1));
 
-
+        MatchManager.givearmor((Player) sender, Color.RED);
 
         sender.sendMessage("Joined §c§lRED");
     }
@@ -26,7 +26,7 @@ public class Joincommand implements CommandExecutor {
         TeamManager.getblue().add((Player) sender);
 
         ((Player) sender).teleport(new Location(world, 42.5, 10, -32.5, 179, 1));
-
+        MatchManager.givearmor((Player) sender, Color.BLUE);
         sender.sendMessage("Joined §9§lBLUE");
     }
 
@@ -37,7 +37,7 @@ if(TeamManager.getblue().contains(sender) || TeamManager.getred().contains(sende
     sender.sendMessage("Your already in a team.");
     return true;
 }
-
+        ((Player) sender).getInventory().clear();
         if(TeamManager.getblue().size() > TeamManager.getred().size()){//up red
             addtored(sender);
         }else if(TeamManager.getred().size() > TeamManager.getblue().size()){//up blue
@@ -45,15 +45,12 @@ if(TeamManager.getblue().contains(sender) || TeamManager.getred().contains(sende
         }else {//random
             if (Math.random() < 0.5) {
                 addtored(sender);
-                MatchManager.givearmor((Player) sender, Color.RED);
             } else {
                 addtoblue(sender);
-                MatchManager.givearmor((Player) sender, Color.BLUE);
-
             }
         }
 Integer spectators = Bukkit.getOnlinePlayers().size() - TeamManager.getblue().size() - TeamManager.getred().size();
-        ((Player) sender).getInventory().clear();
+
         ((Player) sender).setGameMode(GameMode.SURVIVAL);
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kit halcyon " + sender.getName());
         ((Player) sender).getInventory().addItem(new ItemStack(Material.ARROW, 64));

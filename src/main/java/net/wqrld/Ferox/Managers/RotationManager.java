@@ -10,7 +10,6 @@ public class RotationManager {
 
 
     static ArrayList<Gamemap> maps = new ArrayList();
-    ;
 
     public static ArrayList<Gamemap> getmaps() {
         return maps;
