@@ -3,6 +3,7 @@ package net.wqrld.Ferox.Listeners;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.wqrld.Ferox.Main;
 import net.wqrld.Ferox.Managers.MatchManager;
+import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
 import org.bukkit.*;
 import org.bukkit.entity.Damageable;
@@ -27,8 +28,8 @@ public class JoinListener implements Listener{
     public void onPlayerJoin(PlayerJoinEvent e) {
         e.getPlayer().sendMessage("You were sent to spawn");
         World world = Bukkit.getWorld("zenith");
-        Location loc = new Location(world, 89.5, 28, -90.5, 90, 1);
-        e.getPlayer().teleport(loc);
+        //Location loc = new Location(world, 89.5, 28, -90.5, 90, 1);
+        e.getPlayer().teleport(RotationManager.CurrentMap().getLocation("spawn"));
         ItemStack i = new ItemStack(Material.COMPASS);
         ItemMeta meta = i.getItemMeta();
         meta.setDisplayName("Click to join");
@@ -66,24 +67,5 @@ public class JoinListener implements Listener{
 //            }
 //        }
 //}
-    @EventHandler
-    public void ondeath(PlayerDeathEvent e) {
-        try {
-            for (ItemStack drop : e.getDrops()) {
-                if (drop.getType() == Material.LEATHER_BOOTS ||
-                        drop.getType() == Material.STONE_SWORD ||
-                        drop.getType() == Material.BOW ||
-                        drop.getType() == Material.DIAMOND_PICKAXE ||
-                        drop.getType() == Material.STONE_AXE ||
-                        drop.getType() == Material.LEATHER_LEGGINGS ||
-                        drop.getType() == Material.LEATHER_CHESTPLATE ||
-                        drop.getType() == Material.LEATHER_HELMET) {
-                    e.getDrops().remove(drop);
 
-                }
-            }
-        } catch (ConcurrentModificationException i) {
-            Bukkit.getConsoleSender().sendMessage(i.getStackTrace().toString());
-        }
-    }
 }

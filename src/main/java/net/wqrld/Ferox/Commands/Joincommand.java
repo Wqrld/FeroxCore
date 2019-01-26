@@ -1,6 +1,7 @@
 package net.wqrld.Ferox.Commands;
 
 import net.wqrld.Ferox.Managers.MatchManager;
+import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
 import org.bukkit.*;
 import org.bukkit.command.Command;
@@ -16,7 +17,8 @@ public class Joincommand implements CommandExecutor {
    World world = Bukkit.getWorld("zenith");
     public void addtored(CommandSender sender){
         TeamManager.getred().add((Player) sender);
-        ((Player) sender).teleport(new Location(world, 42.5, 10, -148.5, 1, 1));
+
+        ((Player) sender).teleport(RotationManager.CurrentMap().getLocation("redspawn"));
 
         MatchManager.givearmor((Player) sender, Color.RED);
 
@@ -25,7 +27,7 @@ public class Joincommand implements CommandExecutor {
     public void addtoblue(CommandSender sender){
         TeamManager.getblue().add((Player) sender);
 
-        ((Player) sender).teleport(new Location(world, 42.5, 10, -32.5, 179, 1));
+        ((Player) sender).teleport(RotationManager.CurrentMap().getLocation("bluespawn"));
         MatchManager.givearmor((Player) sender, Color.BLUE);
         sender.sendMessage("Joined §9§lBLUE");
     }
@@ -49,11 +51,11 @@ if(TeamManager.getblue().contains(sender) || TeamManager.getred().contains(sende
                 addtoblue(sender);
             }
         }
-Integer spectators = Bukkit.getOnlinePlayers().size() - TeamManager.getblue().size() - TeamManager.getred().size();
+        Integer spectators = Bukkit.getOnlinePlayers().size() - TeamManager.getblue().size() - TeamManager.getred().size();
 
         ((Player) sender).setGameMode(GameMode.SURVIVAL);
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kit halcyon " + sender.getName());
-        ((Player) sender).getInventory().addItem(new ItemStack(Material.ARROW, 64));
+        // ((Player) sender).getInventory().addItem(new ItemStack(Material.ARROW, 64));
         sender.sendMessage("§7§m§l---------------- §r§cFerox§6Mc§7§m§l ----------------");
         sender.sendMessage("§cRed: " + TeamManager.getred().size() + " §r§8| §9blue: " + TeamManager.getblue().size() + " §r§8| §bspecators: " + spectators);
         sender.sendMessage("§lGoal: §r§7Destroy the enemy nexuses.");
