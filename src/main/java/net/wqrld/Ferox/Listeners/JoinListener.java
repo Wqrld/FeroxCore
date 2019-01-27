@@ -1,33 +1,22 @@
 package net.wqrld.Ferox.Listeners;
 
-import me.clip.placeholderapi.PlaceholderAPI;
-import net.wqrld.Ferox.Main;
-import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
-import org.bukkit.*;
-import org.bukkit.entity.Damageable;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.ConcurrentModificationException;
 
 public class JoinListener implements Listener{
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         e.getPlayer().sendMessage("You were sent to spawn");
-        World world = Bukkit.getWorld("zenith");
         //Location loc = new Location(world, 89.5, 28, -90.5, 90, 1);
         e.getPlayer().teleport(RotationManager.CurrentMap().getLocation("spawn"));
         ItemStack i = new ItemStack(Material.COMPASS);

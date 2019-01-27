@@ -5,7 +5,9 @@ import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import net.wqrld.Ferox.Main;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -19,7 +21,7 @@ public class MatchManager{
 
     public static boolean gamestarted = true;
 //e.getPlayer().getServer().broadcastMessage(e.getPlayer().getDisplayName() + " broke the §9§lBlue§r nexus!");
-static World world = Bukkit.getWorld("zenith");
+
 
 public static void givearmor(Player p, Color c){
     ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
@@ -53,7 +55,7 @@ public static void givearmor(Player p, Color c){
         for(Player p : Bukkit.getOnlinePlayers()){
             if(TeamManager.getred().contains(p) || TeamManager.getblue().contains(p)){
                 p.getInventory().clear();
-                p.teleport(new Location(world, 89.5, 28, -90.5, 90, 1));
+                p.teleport(RotationManager.NextMap().getLocation("Spawn"));
 
                 //https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fredditpublic.com%2Fimages%2Fb%2Fb2%2FItems_slot_number.png&f=1
                 p.getInventory().setItem(0, i);
@@ -77,17 +79,17 @@ public static void givearmor(Player p, Color c){
         Bukkit.broadcastMessage("§9resetting map");
         Bukkit.broadcastMessage("§9Last map: " + RotationManager.CurrentMap().getName());
         Bukkit.broadcastMessage("§9Next map: " + RotationManager.NextMap().getName());
-        RotationManager.upindex();
 
-        File file = new File("zenith.schematic");
+
+        File file = new File(RotationManager.CurrentMap().getName() + ".schematic");
         Vector to = new Vector(0, 0, 0);
 
         try {
-            EditSession editSession = ClipboardFormat.findByFile(file).load(file).paste(BukkitUtil.getLocalWorld(Bukkit.getWorld("zenith")), to);
+            EditSession editSession = ClipboardFormat.findByFile(file).load(file).paste(BukkitUtil.getLocalWorld(Bukkit.getWorld(RotationManager.CurrentMap().getName())), to);
         }catch(IOException err){
             //noop
         }
-
+        RotationManager.upindex();
         MatchManager.startgame();
 
 

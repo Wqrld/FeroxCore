@@ -4,11 +4,11 @@ import org.bukkit.Location;
 
 public class Gamemap {
 
-    private static String author, name;
-    private static Location redspawn, bluespawn, spawn;
-    private static Location redspawnarea1, redspawnarea2, bluespawnarea1, bluespawnarea2, spawnarea1, spawnarea2;
-    private static Location rednexus, bluenexus;
-    private static Integer nexuscount;
+    private String author, name;
+    private Location redspawn, bluespawn, spawn;
+    private Location redspawnarea1, redspawnarea2, bluespawnarea1, bluespawnarea2, spawnarea1, spawnarea2;
+    private Location rednexus, bluenexus;
+    private Integer nexuscount;
 
     public Gamemap(String author, String name, Integer nexuscount, Location redspawn, Location bluespawn, Location spawn,
                    Location redspawnarea1, Location redspawnarea2, Location bluespawnarea1, Location bluespawnarea2, Location spawnarea1, Location spawnarea2, Location rednexus, Location bluenexus) {
@@ -28,7 +28,7 @@ public class Gamemap {
         this.bluenexus = bluenexus;
     }
 
-    public static Location getLocation(String what) {
+    public Location getLocation(String what) {
         if (what.equalsIgnoreCase("spawn")) {
             return spawn;
         }

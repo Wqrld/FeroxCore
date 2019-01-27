@@ -3,18 +3,19 @@ package net.wqrld.Ferox.Commands;
 import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class Joincommand implements CommandExecutor {
    // World world = Bukkit.getWorld("Spawn");
     //Location loc = new Location(world, 648, 26, -523);
      //   e.getPlayer().teleport(loc);
-   World world = Bukkit.getWorld("zenith");
+
     public void addtored(CommandSender sender){
         TeamManager.getred().add((Player) sender);
 

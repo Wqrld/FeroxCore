@@ -1,13 +1,10 @@
 package net.wqrld.Ferox;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import net.wqrld.Ferox.Commands.Joincommand;
 import net.wqrld.Ferox.Commands.Pastemap;
 import net.wqrld.Ferox.Listeners.*;
 import net.wqrld.Ferox.Managers.PLH;
 import net.wqrld.Ferox.Managers.RotationManager;
-import net.wqrld.Ferox.Types.Area;
 import net.wqrld.Ferox.Types.Gamemap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -18,15 +15,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONString;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Main extends JavaPlugin  implements Listener {
@@ -77,7 +71,7 @@ public class Main extends JavaPlugin  implements Listener {
         World world = Bukkit.getWorld("zenith");
         RotationManager.addmap(
                 new Gamemap("Xirial",//author
-                        "Zenith",//name
+                        "zenith",//name
                         1,
 
                         new Location(world, 42.5, 10, -148.5, 1, 1),//redspawn
@@ -97,6 +91,45 @@ public class Main extends JavaPlugin  implements Listener {
                         new Location(world, 42, 12, -55)//bluenexus
 
                 ));
+
+
+        World meadows = Bukkit.getWorld("meadows");
+        RotationManager.addmap(
+                new Gamemap("Xirial",//author
+                        "meadows",//name
+                        1,
+
+                        new Location(meadows, -67.5, 111, -177.5, 1, 1),//redspawn
+                        new Location(meadows, -67.5, 111, -35.5, 179, 1),//bluespawn
+                        new Location(meadows, -27.5, 123, -106.5, 90, 1),//spawn
+
+                        new Location(meadows, -58, 124, -182),//redspawn1
+                        new Location(meadows, -75, 100, -170),//redspawn2
+
+                        new Location(meadows, -58, 100, -42),//bluespawn1
+                        new Location(meadows, -75, 124, -31),//bluespawn2
+
+                        new Location(meadows, -21, 115, -98),//spawn1
+                        new Location(meadows, -32, 123, -114),//spawn2
+
+                        new Location(meadows, -68, 110, -152),//rednexus
+                        new Location(meadows, -68, 110, -62)//bluenexus
+
+                ));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 

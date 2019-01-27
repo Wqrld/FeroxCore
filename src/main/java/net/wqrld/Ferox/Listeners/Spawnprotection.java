@@ -1,20 +1,15 @@
 package net.wqrld.Ferox.Listeners;
 
-import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
 import net.wqrld.Ferox.Utils.AreaUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 public class Spawnprotection implements Listener {
-    World world = Bukkit.getWorld("zenith");
 
 
     @EventHandler

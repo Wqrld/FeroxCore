@@ -3,10 +3,7 @@ package net.wqrld.Ferox.Listeners;
 import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -16,7 +13,6 @@ public class BreakListener implements Listener {
     public void onBlockBreak(BlockBreakEvent e) {
         if(e.getBlock().getType() == Material.OBSIDIAN) {
 
-            World world = Bukkit.getWorld("zenith");
 
             if (e.getBlock().getLocation().equals(RotationManager.CurrentMap().getLocation("rednexus"))) {
 
