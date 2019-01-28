@@ -1,13 +1,11 @@
 package net.wqrld.Ferox.Listeners;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,5 +27,6 @@ public class DeathListener implements Listener {
                 i.remove();
             }
         }
+
     }
 }

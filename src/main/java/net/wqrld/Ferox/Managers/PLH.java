@@ -1,8 +1,6 @@
 package net.wqrld.Ferox.Managers;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import net.wqrld.Ferox.Managers.TeamManager;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class PLH extends PlaceholderExpansion {
@@ -48,7 +46,9 @@ public class PLH extends PlaceholderExpansion {
 
 
         }
-
+        if (identifier.equalsIgnoreCase("map")) {
+            return RotationManager.CurrentMap().getName();
+        }
 
 
         if (identifier.equalsIgnoreCase("teams")) {

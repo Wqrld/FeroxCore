@@ -53,13 +53,15 @@ public static void givearmor(Player p, Color c){
         gamestarted = false;
         Bukkit.broadcastMessage("§9Game ended");
         for(Player p : Bukkit.getOnlinePlayers()){
-            if(TeamManager.getred().contains(p) || TeamManager.getblue().contains(p)){
-                p.getInventory().clear();
-                p.teleport(RotationManager.NextMap().getLocation("Spawn"));
+
+            p.teleport(RotationManager.NextMap().getLocation("Spawn"));
+
+            p.getInventory().clear();
+
 
                 //https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fredditpublic.com%2Fimages%2Fb%2Fb2%2FItems_slot_number.png&f=1
                 p.getInventory().setItem(0, i);
-            }
+
         }
 
         new BukkitRunnable() {

@@ -43,6 +43,7 @@ public class Main extends JavaPlugin  implements Listener {
         getServer().getPluginManager().registerEvents(new RespawnHandler(), this);
         getServer().getPluginManager().registerEvents(new ChatHandler(), this);
         getServer().getPluginManager().registerEvents(new DeathListener(), this);
+        getServer().getPluginManager().registerEvents(new Joincommand(), this);
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             Bukkit.broadcastMessage("placeholderapi found");
             new PLH().register();

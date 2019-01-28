@@ -12,4 +12,6 @@ By Wqrld
 - Commands aren't used much
 
 
+![plugin in action](https://i.wqrld.net/Pizza_Bq)
+
 #### © Wqrld 2019
