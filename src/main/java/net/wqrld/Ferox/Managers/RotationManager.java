@@ -43,17 +43,17 @@ public class RotationManager {
         return maps.get(i);
     }
 
-    public static Gamemap CurrentMap() {
+    public static Gamemap GetCurrentMap() {
         return maps.get(index);
     }
 
-    public static Gamemap NextMap() {//1
-        Integer i = index;
-        if (i + 1 > maps.size() - 1) {
-            i = -1;
+    public static Gamemap GetNextMap() {//1
+        int indexcopy = index;
+        if (indexcopy + 1 > maps.size() - 1) {
+            indexcopy = -1;
             //overflow
         }
-        return maps.get(i + 1);
+        return maps.get(indexcopy + 1);
     }
 
 

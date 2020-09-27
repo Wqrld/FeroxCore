@@ -28,7 +28,7 @@ public class PLH extends PlaceholderExpansion {
 
         if (identifier.equalsIgnoreCase("nexuscount")) {
 
-            return "1";
+            return RotationManager.GetCurrentMap().getNexuscount().toString();
 
         }
 //✅✅✅✘✔
@@ -47,7 +47,7 @@ public class PLH extends PlaceholderExpansion {
 
         }
         if (identifier.equalsIgnoreCase("map")) {
-            return RotationManager.CurrentMap().getName();
+            return RotationManager.GetCurrentMap().getName();
         }
 
 

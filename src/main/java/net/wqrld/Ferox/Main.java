@@ -1,5 +1,6 @@
 package net.wqrld.Ferox;
 
+import net.wqrld.Ferox.Commands.Debugmap;
 import net.wqrld.Ferox.Commands.Joincommand;
 import net.wqrld.Ferox.Commands.Pastemap;
 import net.wqrld.Ferox.Listeners.*;
@@ -37,10 +38,12 @@ public class Main extends JavaPlugin  implements Listener {
         createConfig();
         this.getCommand("join").setExecutor(new Joincommand());
         this.getCommand("pastemap").setExecutor(new Pastemap());
+        this.getCommand("debugmap").setExecutor(new Debugmap());
         getServer().getPluginManager().registerEvents(new JoinListener(), this);
         getServer().getPluginManager().registerEvents(new BreakListener(), this);
         getServer().getPluginManager().registerEvents(new Spawnprotection(), this);
         getServer().getPluginManager().registerEvents(new RespawnHandler(), this);
+        getServer().getPluginManager().registerEvents(new FriendlyFire(), this);
         getServer().getPluginManager().registerEvents(new ChatHandler(), this);
         getServer().getPluginManager().registerEvents(new DeathListener(), this);
         getServer().getPluginManager().registerEvents(new Joincommand(), this);
@@ -114,35 +117,42 @@ public class Main extends JavaPlugin  implements Listener {
                         new Location(meadows, -32, 123, -114),//spawn2
 
                         new Location(meadows, -68, 110, -152),//rednexus
-                        new Location(meadows, -68, 110, -62)//bluenexus
+                        new Location(meadows, -68, 110, -62)//bluenexus,
+                ));
 
+        World palmrust = Bukkit.getWorld("palm_rust");
+        RotationManager.addmap(
+                new Gamemap("Xirial",//author
+                        "palmrust",//name
+                        2,
+
+                        new Location(palmrust, -16.5, 36, -14.5, 135, 1),//redspawn
+                        new Location(palmrust, -120.5, 36, -118.5, -50, 1),//bluespawn
+                        new Location(palmrust, -46.5, 43, -93.5, -89, 1),//spawn
+
+                        new Location(palmrust, -9, 41, -25),//redspawn1
+                        new Location(palmrust, -26, 26, -7),//redspawn2
+
+                        new Location(palmrust, -125, 41, -110),//bluespawn1
+                        new Location(palmrust, -109, 26, -125),//bluespawn2
+
+                        new Location(palmrust, -48, 48, -89),//spawn1
+                        new Location(palmrust, -41, 39, -98),//spawn2
+
+                        new Location(palmrust, -67, 24, -25),//rednexus1
+                        new Location(palmrust, -71, 24, -109),//bluenexus1
+
+                        new Location(palmrust, -27, 24, -65),//rednexus2
+                        new Location(palmrust, -111, 24, 69)//bluenexus2
                 ));
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
-
-
 
 
     public Main() {
         plugin = this;
     }
-
-
-
 
 
     private void createConfig() {

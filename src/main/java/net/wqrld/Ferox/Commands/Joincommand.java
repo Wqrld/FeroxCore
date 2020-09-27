@@ -26,7 +26,7 @@ public class Joincommand implements CommandExecutor, Listener {
     public void addtored(CommandSender sender){
         TeamManager.getred().add((Player) sender);
 
-        ((Player) sender).teleport(RotationManager.CurrentMap().getLocation("redspawn"));
+        ((Player) sender).teleport(RotationManager.GetCurrentMap().getLocation("redspawn"));
 
         MatchManager.givearmor((Player) sender, Color.RED);
 
@@ -35,7 +35,7 @@ public class Joincommand implements CommandExecutor, Listener {
     public void addtoblue(CommandSender sender){
         TeamManager.getblue().add((Player) sender);
 
-        ((Player) sender).teleport(RotationManager.CurrentMap().getLocation("bluespawn"));
+        ((Player) sender).teleport(RotationManager.GetCurrentMap().getLocation("bluespawn"));
         MatchManager.givearmor((Player) sender, Color.BLUE);
         sender.sendMessage("Joined §9§lBLUE");
     }
@@ -99,41 +99,43 @@ public class Joincommand implements CommandExecutor, Listener {
         ((Player) sender).openInventory(inv);
         return true;
 
-
-
-
-
-
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getInventory().getTitle().equalsIgnoreCase("Join")) {
-            e.getWhoClicked().getInventory().clear();
-            e.getWhoClicked().setGameMode(GameMode.SURVIVAL);
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kit halcyon " + e.getWhoClicked().getName());
-            if (e.getCurrentItem().getType() == Material.WOOL) {
-                autojoin(e.getWhoClicked());
-                joinmessage(e.getWhoClicked());
-            } else if (e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getDurability() == 14) {
-                if (e.getWhoClicked().isOp()) {
-                    addtored(e.getWhoClicked());
-                    joinmessage(e.getWhoClicked());
-                } else {
-                    e.getWhoClicked().sendMessage("§cYou do not have the required rank to do this.");
-                }
-            } else if (e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getDurability() == 11) {
-                if (e.getWhoClicked().isOp()) {
-                    addtoblue(e.getWhoClicked());
-                    joinmessage(e.getWhoClicked());
-                } else {
-                    e.getWhoClicked().sendMessage("§cYou do not have the required rank to do this.");
-                }
-            }
+
+          if(e.getCurrentItem().getType() == Material.WOOL) {
+              e.getWhoClicked().getInventory().clear();
+              e.getWhoClicked().setGameMode(GameMode.SURVIVAL);
+              e.getWhoClicked().setHealth(20);
+              Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kit halcyon " + e.getWhoClicked().getName());
 
 
-            e.setCancelled(true);
-            e.getWhoClicked().closeInventory();
+
+              if (e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getDurability() == 0) {
+                  autojoin(e.getWhoClicked());
+                  joinmessage(e.getWhoClicked());
+              } else if (e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getDurability() == 14) {
+                  if (e.getWhoClicked().isOp()) {
+                      addtored(e.getWhoClicked());
+                      joinmessage(e.getWhoClicked());
+                  } else {
+                      e.getWhoClicked().sendMessage("§cYou do not have the required rank to do this.");
+                  }
+              } else if (e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getDurability() == 11) {
+                  if (e.getWhoClicked().isOp()) {
+                      addtoblue(e.getWhoClicked());
+                      joinmessage(e.getWhoClicked());
+                  } else {
+                      e.getWhoClicked().sendMessage("§cYou do not have the required rank to do this.");
+                  }
+              }
+              e.setCancelled(true);
+              e.getWhoClicked().closeInventory();
+          }
+
+
 
         }
 

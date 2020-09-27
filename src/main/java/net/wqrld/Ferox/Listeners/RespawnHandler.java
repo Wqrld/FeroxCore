@@ -9,6 +9,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -16,6 +17,16 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class RespawnHandler implements Listener {
 
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e){
+        
+        new BukkitRunnable() {
+            @Override public void run() {
+                e.getEntity().spigot().respawn();
+            }
+        }.runTaskLater(Main.plugin, 20);
+
+    }
 
     @EventHandler
     public void respawn(PlayerRespawnEvent e) {
@@ -24,17 +35,17 @@ public class RespawnHandler implements Listener {
             public void run() {
                 if (TeamManager.getred().contains(e.getPlayer())) {
 
-                    e.getPlayer().teleport(RotationManager.CurrentMap().getLocation("redspawn"));
+                    e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("redspawn"));
                     MatchManager.givearmor(e.getPlayer(), Color.RED);
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kit halcyon " + e.getPlayer().getName());
                     //  e.getPlayer().getInventory().addItem(new ItemStack(Material.ARROW, 64));
                 } else if (TeamManager.getblue().contains(e.getPlayer())) {
-                    e.getPlayer().teleport(RotationManager.CurrentMap().getLocation("bluespawn"));
+                    e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("bluespawn"));
                     MatchManager.givearmor(e.getPlayer(), Color.BLUE);
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kit halcyon " + e.getPlayer().getName());
                     //   e.getPlayer().getInventory().addItem(new ItemStack(Material.ARROW, 64));
                 } else {
-                    e.getPlayer().teleport(RotationManager.CurrentMap().getLocation("spawn"));
+                    e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("spawn"));
                     ItemStack i = new ItemStack(Material.COMPASS);
                     ItemMeta meta = i.getItemMeta();
                     meta.setDisplayName("Click to join");

@@ -1,9 +1,17 @@
 package net.wqrld.Ferox.Commands;
 
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.Vector;
+import com.sk89q.worldedit.bukkit.BukkitUtil;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import net.wqrld.Ferox.Managers.RotationManager;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+
+import java.io.File;
+import java.io.IOException;
 
 public class Pastemap implements CommandExecutor {
     // World world = Bukkit.getWorld("Spawn");
@@ -27,10 +35,19 @@ public class Pastemap implements CommandExecutor {
 //            sender.sendMessage("Could not find file");
 //        }
         sender.sendMessage("Pasting map");
-        sender.sendMessage(RotationManager.CurrentMap().getName() + " o|n " + RotationManager.NextMap().getName() + " | " + RotationManager.getIndex());
-        for (int i = 0; i < RotationManager.getMaps().size(); i++) {
-            sender.sendMessage(RotationManager.getMaps().get(i).getName());
+        sender.sendMessage("index:" + RotationManager.getIndex() + " | " + RotationManager.GetCurrentMap().getName() + " currentmap|nextmap " + RotationManager.GetNextMap().getName() + " |new " + RotationManager.getIndex());
+
+        File file = new File(RotationManager.GetCurrentMap().getName() + ".schematic");
+        Vector to = new Vector(0, 0, 0);
+
+        try {
+            EditSession editSession = ClipboardFormat.findByFile(file).load(file).paste(BukkitUtil.getLocalWorld(RotationManager.GetCurrentMap().getLocation("redspawn").getWorld()), to);
+        } catch (IOException err) {
+            //noop
+            Bukkit.getConsoleSender().sendMessage(err.getMessage());
         }
+
+
 return true;
     }
 }

@@ -22,18 +22,18 @@ public class Spawnprotection implements Listener {
                 e.setCancelled(true);
             }
 //spawn
-            if (AreaUtils.iswithin(e.getBlock().getLocation(), RotationManager.CurrentMap().getLocation("spawnarea1"), RotationManager.CurrentMap().getLocation("spawnarea2"))) {
+            if (AreaUtils.iswithin(e.getBlock().getLocation(), RotationManager.GetCurrentMap().getLocation("spawnarea1"), RotationManager.GetCurrentMap().getLocation("spawnarea2"))) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage("You cannot build here");
             }
             //red
 
-            if (AreaUtils.iswithin(e.getBlock().getLocation(), RotationManager.CurrentMap().getLocation("redspawnarea1"), RotationManager.CurrentMap().getLocation("redspawnarea2"))) {
+            if (AreaUtils.iswithin(e.getBlock().getLocation(), RotationManager.GetCurrentMap().getLocation("redspawnarea1"), RotationManager.GetCurrentMap().getLocation("redspawnarea2"))) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage("You cannot build here");
             }
             //blue
-            if (AreaUtils.iswithin(e.getBlock().getLocation(), RotationManager.CurrentMap().getLocation("bluespawnarea1"), RotationManager.CurrentMap().getLocation("bluespawnarea2"))) {
+            if (AreaUtils.iswithin(e.getBlock().getLocation(), RotationManager.GetCurrentMap().getLocation("bluespawnarea1"), RotationManager.GetCurrentMap().getLocation("bluespawnarea2"))) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage("You cannot build here");
             }
@@ -51,18 +51,18 @@ public class Spawnprotection implements Listener {
                 return;
             }
 
-            if (AreaUtils.iswithin(e.getBlock().getLocation(), RotationManager.CurrentMap().getLocation("spawnarea1"), RotationManager.CurrentMap().getLocation("spawnarea2"))) {
+            if (AreaUtils.iswithin(e.getBlock().getLocation(), RotationManager.GetCurrentMap().getLocation("spawnarea1"), RotationManager.GetCurrentMap().getLocation("spawnarea2"))) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage("You cannot build here");
             }
             //red
 
-            if (AreaUtils.iswithin(e.getBlock().getLocation(), RotationManager.CurrentMap().getLocation("redspawnarea1"), RotationManager.CurrentMap().getLocation("redspawnarea2"))) {
+            if (AreaUtils.iswithin(e.getBlock().getLocation(), RotationManager.GetCurrentMap().getLocation("redspawnarea1"), RotationManager.GetCurrentMap().getLocation("redspawnarea2"))) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage("You cannot build here");
             }
             //blue
-            if (AreaUtils.iswithin(e.getBlock().getLocation(), RotationManager.CurrentMap().getLocation("bluespawnarea1"), RotationManager.CurrentMap().getLocation("bluespawnarea2"))) {
+            if (AreaUtils.iswithin(e.getBlock().getLocation(), RotationManager.GetCurrentMap().getLocation("bluespawnarea1"), RotationManager.GetCurrentMap().getLocation("bluespawnarea2"))) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage("You cannot build here");
             }
