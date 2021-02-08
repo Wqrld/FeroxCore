@@ -1,6 +1,7 @@
 package net.wqrld.Ferox.Managers;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import net.jpountz.lz4.LZ4Utils;
 import org.bukkit.entity.Player;
 
 public class PLH extends PlaceholderExpansion {
@@ -33,6 +34,17 @@ public class PLH extends PlaceholderExpansion {
         }
 //✅✅✅✘✔
 
+        if (identifier.startsWith("nexusstatus_")) {
+            String nexusname = identifier.split("_")[1];
+            if (MatchManager.isBroken(nexusname)) {
+                return "&c✘";
+            } else {
+                return "&a✔";
+            }
+        }
+        if (identifier.equalsIgnoreCase("matchtime")) {
+            return MatchManager.getMatchTime();
+        }
 
         if (identifier.equalsIgnoreCase("team")) {
 

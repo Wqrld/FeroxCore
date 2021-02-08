@@ -24,6 +24,7 @@ public class Pastemap implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if(sender.isOp()){
 //        File file = new File("meadows.schematic");
 //        Vector to = new Vector(0, 0, 0);
 //
@@ -37,6 +38,17 @@ public class Pastemap implements CommandExecutor {
         sender.sendMessage("Pasting map");
         sender.sendMessage("index:" + RotationManager.getIndex() + " | " + RotationManager.GetCurrentMap().getName() + " currentmap|nextmap " + RotationManager.GetNextMap().getName() + " |new " + RotationManager.getIndex());
 
+            pastemap();
+
+
+            return true;
+    } else {
+        sender.sendMessage("Your not OP");
+            return false;
+    }
+}
+
+    public static void pastemap() {
         File file = new File(RotationManager.GetCurrentMap().getName() + ".schematic");
         Vector to = new Vector(0, 0, 0);
 
@@ -46,8 +58,5 @@ public class Pastemap implements CommandExecutor {
             //noop
             Bukkit.getConsoleSender().sendMessage(err.getMessage());
         }
-
-
-return true;
     }
 }

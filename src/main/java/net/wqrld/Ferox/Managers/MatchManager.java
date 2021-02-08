@@ -4,6 +4,7 @@ import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import net.wqrld.Ferox.Commands.Pastemap;
 import net.wqrld.Ferox.Main;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -14,11 +15,27 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.Duration;
+import java.util.Date;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class MatchManager {
-
-    private static Boolean red1broken, blue1broken, red2broken, blue2broken;
+    private static boolean red1broken, blue1broken, red2broken, blue2broken;
+    private static Date matchstart = new Date();
     public static boolean gamestarted = true;
+    public static String lastwinner = "Red";
+
+
+    public static void setwinner(String winner) {
+        lastwinner = winner;
+    }
+
+    public static String getwinner() {
+        return lastwinner;
+    }
 //e.getPlayer().getServer().broadcastMessage(e.getPlayer().getDisplayName() + " broke the §9§lBlue§r nexus!");
 
 
@@ -54,24 +71,61 @@ public class MatchManager {
         if (nexus.equalsIgnoreCase("bluenexus2")) {
             blue2broken = true;
         }
+        Bukkit.getConsoleSender().sendMessage("broken nexus " + nexus);
     }
 
-    public static Boolean isBroken(String nexus) {
-        if (nexus == "rednexus1" && red1broken) {
+    public static boolean isBroken(String nexus) {
+//        Bukkit.getConsoleSender().sendMessage("requested nexus broken status of nexus: " + nexus);
+//        Bukkit.getConsoleSender().sendMessage("" + red1broken + " " + red2broken + " " + blue1broken + " " + blue2broken);
+        if (nexus.equalsIgnoreCase("rednexus1") && red1broken == true) {
             return true;
+        } else if (nexus.equalsIgnoreCase("rednexus2") && red2broken == true) {
+            return true;
+        } else if (nexus.equalsIgnoreCase("bluenexus1") && blue1broken == true) {
+            return true;
+        } else if (nexus.equalsIgnoreCase("bluenexus2") && blue2broken == true) {
+            return true;
+        } else {
+            return false;
         }
-        if (nexus == "rednexus2" && red2broken) {
-            return true;
-        }
-        if (nexus == "bluenexus1" && blue1broken) {
-            return true;
-        }
-        if (nexus == "bluenexus2" && blue2broken) {
-            return true;
+    }
+
+    private static String formatDuration(long duration) {
+        long hours = TimeUnit.MILLISECONDS.toHours(duration);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(duration) % 60;
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(duration) % 60;
+        if (hours < 1) {
+            return String.format("%02d Minutes", minutes, seconds);
+        } else {
+            return String.format("%02d:%02d:%02d", hours, minutes);
         }
 
-        return false;
     }
+
+    public static String getNexusStatusses() {
+        return "" + red1broken + " " + red2broken + " " + blue1broken + " " + blue2broken;
+    }
+
+    public static String getMatchTime() {
+        return formatDuration(new Date().getTime() - matchstart.getTime());
+    }
+
+    public static void Monumentbroken(Player player) {
+
+        if (Bukkit.getOnlinePlayers().size() > 1) {
+
+            try {
+                Main.statement.executeUpdate("INSERT INTO Stats VALUES ('" + player.getUniqueId() + "', 0, 0, 1, 0, 0, 0, 0, 0, 0) ON DUPLICATE KEY UPDATE monuments = monuments + 1");
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+        }
+
+
+    }
+
+
 
 
     public static void endgame() {
@@ -89,7 +143,7 @@ public class MatchManager {
         red2broken = false;
         for (Player p : Bukkit.getOnlinePlayers()) {
 
-          //  p.teleport(RotationManager.GetCurrentMap().getLocation("Spawn"));
+            //  p.teleport(RotationManager.GetCurrentMap().getLocation("Spawn"));
 
             p.getInventory().setHelmet(null);
             p.getInventory().setChestplate(null);
@@ -98,6 +152,23 @@ public class MatchManager {
             p.getInventory().clear();
             p.setGameMode(GameMode.SPECTATOR);
             //https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fredditpublic.com%2Fimages%2Fb%2Fb2%2FItems_slot_number.png&f=1
+            UUID uuid = p.getUniqueId();
+            String query = "SELECT * FROM Stats";
+            if (TeamManager.getblue().contains(p) && getwinner() == "Blue") {
+                query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 1, 0) ON DUPLICATE KEY UPDATE wins = wins + 1";
+            } else if (TeamManager.getblue().contains(p) && getwinner() == "Red") {
+                query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 0, 1) ON DUPLICATE KEY UPDATE loses = loses + 1";
+            }else if (TeamManager.getred().contains(p) && getwinner() == "Red") {
+                query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 1, 0) ON DUPLICATE KEY UPDATE wins = wins + 1";
+            }
+            else if (TeamManager.getred().contains(p) && getwinner() == "Blue") {
+                query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 0, 1) ON DUPLICATE KEY UPDATE loses = loses + 1";
+            }
+            try {
+                Main.statement.executeUpdate(query);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
 
 
         }
@@ -128,7 +199,7 @@ public class MatchManager {
 
 
             }
-        }.runTaskLater(Main.plugin, 140);
+        }.runTaskLater(Main.plugin, 300);
 
     }
 
@@ -140,15 +211,7 @@ public class MatchManager {
         Bukkit.broadcastMessage("§9Next map: " + RotationManager.GetNextMap().getName());
 
 
-        File file = new File(RotationManager.GetCurrentMap().getName() + ".schematic");
-        Vector to = new Vector(0, 0, 0);
-
-        try {
-            EditSession editSession = ClipboardFormat.findByFile(file).load(file).paste(BukkitUtil.getLocalWorld(RotationManager.GetCurrentMap().getLocation("redspawn").getWorld()), to);
-        } catch (IOException err) {
-            //noop
-            Bukkit.getConsoleSender().sendMessage(err.getMessage());
-        }
+        Pastemap.pastemap();
 
 
         new BukkitRunnable() {
@@ -162,13 +225,12 @@ public class MatchManager {
         }.runTaskLater(Main.plugin, 40);
 
 
-
-
     }
 
     public static void startgame() {
         //open up joining
         gamestarted = true;
+        matchstart = new Date();
         Bukkit.broadcastMessage("§9Game started");
     }
 

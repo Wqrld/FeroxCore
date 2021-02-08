@@ -9,5 +9,14 @@ commands:
       description: joins
       usage: /join
    pastemap:
-      description: joins
-      usage: /pastes
+      description: paste
+      usage: /pastemap
+   debugmap:
+      description: debug
+      usage: /debugmap
+   skipmap:
+      description: skip
+      usage: /skipmap
+   stats:
+      description: stats
+      usage: /stats

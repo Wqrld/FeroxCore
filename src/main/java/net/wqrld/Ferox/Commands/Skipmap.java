@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Debugmap implements CommandExecutor {
+public class Skipmap implements CommandExecutor {
     // World world = Bukkit.getWorld("Spawn");
     //Location loc = new Location(world, 648, 26, -523);
     //   e.getPlayer().teleport(loc);
@@ -30,15 +30,8 @@ public class Debugmap implements CommandExecutor {
 //        }catch(IOException err){
 //            sender.sendMessage("Could not find file");
 //        }
-            sender.sendMessage("debug map");
-            sender.sendMessage("index:" + RotationManager.getIndex() + " | " + RotationManager.GetCurrentMap().getName() + " currentmap|nextmap " + RotationManager.GetNextMap().getName() + " |nexuscount " + RotationManager.GetCurrentMap().getNexuscount());
-            for (int i = 0; i < RotationManager.getMaps().size(); i++) {
-                sender.sendMessage(RotationManager.getMaps().get(i).getName());
-            }
-            sender.sendMessage("---------------------------------------------------");
-            sender.sendMessage("looking at:" + player.getTargetBlock(null, 20).getLocation().toString());
-            sender.sendMessage("---------nexusstatusses-----------------------------");
-            sender.sendMessage(MatchManager.getNexusStatusses());
+            sender.sendMessage("skipped map");
+            MatchManager.endgame();
             return true;
 
         } else {

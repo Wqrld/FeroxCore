@@ -1,8 +1,6 @@
 package net.wqrld.Ferox;
 
-import net.wqrld.Ferox.Commands.Debugmap;
-import net.wqrld.Ferox.Commands.Joincommand;
-import net.wqrld.Ferox.Commands.Pastemap;
+import net.wqrld.Ferox.Commands.*;
 import net.wqrld.Ferox.Listeners.*;
 import net.wqrld.Ferox.Managers.PLH;
 import net.wqrld.Ferox.Managers.RotationManager;
@@ -14,6 +12,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -22,10 +21,19 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.stream.Collectors;
 
 public class Main extends JavaPlugin  implements Listener {
 
+    private Connection connection;
+    private String host, database, username, password;
+    private int port;
+
+    public static Statement statement;
     public static Main plugin;
 
     public FileConfiguration fileConfiguration;
@@ -39,6 +47,8 @@ public class Main extends JavaPlugin  implements Listener {
         this.getCommand("join").setExecutor(new Joincommand());
         this.getCommand("pastemap").setExecutor(new Pastemap());
         this.getCommand("debugmap").setExecutor(new Debugmap());
+        this.getCommand("skipmap").setExecutor(new Skipmap());
+        this.getCommand("stats").setExecutor(new Stats());
         getServer().getPluginManager().registerEvents(new JoinListener(), this);
         getServer().getPluginManager().registerEvents(new BreakListener(), this);
         getServer().getPluginManager().registerEvents(new Spawnprotection(), this);
@@ -47,28 +57,103 @@ public class Main extends JavaPlugin  implements Listener {
         getServer().getPluginManager().registerEvents(new ChatHandler(), this);
         getServer().getPluginManager().registerEvents(new DeathListener(), this);
         getServer().getPluginManager().registerEvents(new Joincommand(), this);
+        getServer().getPluginManager().registerEvents(new LeafListener(), this);
+        getServer().getPluginManager().registerEvents(new WeatherListener(), this);
+        getServer().getPluginManager().registerEvents(new FoodListener(), this);
+        getServer().getPluginManager().registerEvents(new KillListener(), this);
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             Bukkit.broadcastMessage("placeholderapi found");
             new PLH().register();
         }
 
 
-        try {
-            HttpURLConnection con = (HttpURLConnection) new URL("https://wqrld.net/maps.json").openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String text = in.lines().collect(Collectors.joining());
-            Bukkit.broadcastMessage(text);
-            JSONObject o = new JSONObject(text);
-            JSONArray j = o.getJSONArray("maps");
-            for (int i = 0; i < j.length(); i++) {
-                Bukkit.broadcastMessage(j.getJSONObject(i).getString("Name"));
+//        try {
+//            HttpURLConnection con = (HttpURLConnection) new URL("https://wqrld.net/maps.json").openConnection();
+//            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+//            String text = in.lines().collect(Collectors.joining());
+//            Bukkit.broadcastMessage(text);
+//            JSONObject o = new JSONObject(text);
+//            JSONArray j = o.getJSONArray("maps");
+//            for (int i = 0; i < j.length(); i++) {
+//                Bukkit.broadcastMessage(j.getJSONObject(i).getString("Name"));
+//            }
+//
+//            con.disconnect();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+
+
+
+        BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                try {
+                    openConnection();
+                    statement = connection.createStatement();
+                } catch(ClassNotFoundException | SQLException e) {
+                    e.printStackTrace();
+                }
             }
+        };
 
-            con.disconnect();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        runnable.runTaskAsynchronously(this);
 
+
+
+
+//        World aardvark = Bukkit.getWorld("aardvark");
+//        RotationManager.addmap(
+//                new Gamemap("Xirial",//author
+//                        "aardvark",//name
+//                        2,
+//
+//                        new Location(aardvark, -16.5, 36, -14.5, 135, 1),//redspawn
+//                        new Location(aardvark, -120.5, 36, -118.5, -50, 1),//bluespawn
+//                        new Location(aardvark, -46.5, 43, -93.5, -89, 1),//spawn
+//
+//                        new Location(aardvark, -9, 41, -25),//redspawn1
+//                        new Location(aardvark, -26, 26, -7),//redspawn2
+//
+//                        new Location(aardvark, -125, 41, -110),//bluespawn1
+//                        new Location(aardvark, -109, 26, -125),//bluespawn2
+//
+//                        new Location(aardvark, -48, 48, -89),//spawn1
+//                        new Location(aardvark, -41, 39, -98),//spawn2
+//
+//                        new Location(aardvark, -67, 24, -25),//rednexus1
+//                        new Location(aardvark, -71, 24, -109),//bluenexus1
+//
+//                        new Location(aardvark, -27, 24, -65),//rednexus2
+//                        new Location(aardvark, -111, 24, 69)//bluenexus2
+//                ));
+
+        World marina = Bukkit.getWorld("Marina");
+        RotationManager.addmap(
+                new Gamemap("Xirial",//author
+                        "marina",//name
+                        2,
+
+                        new Location(marina, 9.5, 19, 28.5, -90, 1),//redspawn
+                        new Location(marina, 101.5, 19, 28.5, 90, 1),//bluespawn
+                        new Location(marina, 55.5, 32, -26.5, 1, 1),//spawn
+
+                        new Location(marina, 20, 18, 24),//redspawn1
+                        new Location(marina, 5, 26, 34),//redspawn2
+
+                        new Location(marina, 92, 26, 23),//bluespawn1
+                        new Location(marina, 104, 18, 36),//bluespawn2
+
+                        new Location(marina, 44, 41, -20),//spawn1
+                        new Location(marina, 70, 22, -43),//spawn2
+
+                        new Location(marina, 21, 23, 4),//rednexus1
+                        new Location(marina, 89, 23, 52),//bluenexus1
+
+                        new Location(marina, 21, 23, 52),//rednexus2
+                        new Location(marina, 89, 23, 4)//bluenexus2
+                ));
 
         //TODO Automate from like a json file
         //  public Gamemap(String author, String name, Location redspawn, Location bluespawn, Location spawn, Area redspawnarea, Area bluespawnarea, Area spawnarea) {
@@ -120,6 +205,8 @@ public class Main extends JavaPlugin  implements Listener {
                         new Location(meadows, -68, 110, -62)//bluenexus,
                 ));
 
+
+
         World palmrust = Bukkit.getWorld("palm_rust");
         RotationManager.addmap(
                 new Gamemap("Xirial",//author
@@ -143,12 +230,23 @@ public class Main extends JavaPlugin  implements Listener {
                         new Location(palmrust, -71, 24, -109),//bluenexus1
 
                         new Location(palmrust, -27, 24, -65),//rednexus2
-                        new Location(palmrust, -111, 24, 69)//bluenexus2
+                        new Location(palmrust, -111, 24, -69)//bluenexus2
                 ));
 
 
     }
-
+    public void openConnection() throws SQLException, ClassNotFoundException {
+        if (connection != null && !connection.isClosed()) {
+            return;
+        }
+        synchronized (this) {
+            if (connection != null && !connection.isClosed()) {
+                return;
+            }
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://nl1.ferox.host:3306/s1733_feroxcore", "u1733_Pq1JbjL23w", "U2dsL2y9@7tuFeA@b.J8toQz");
+        }
+    }
 
     public Main() {
         plugin = this;

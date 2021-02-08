@@ -17,6 +17,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class JoinListener implements Listener{
 
 
@@ -54,7 +58,15 @@ public class JoinListener implements Listener{
         e.getPlayer().setHealth(20);
 
 
-    }
+
+
+        try {
+           Main.statement.executeUpdate("INSERT INTO Stats VALUES ('" + e.getPlayer().getUniqueId() + "', 0, 0, 0, 0, 0, 0, 0, 0, 0) ON DUPLICATE KEY UPDATE loses = loses");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        }
     @EventHandler
     public void onRightCLick(PlayerInteractEvent e){
         if(e.getAction() == Action.RIGHT_CLICK_AIR && e.getItem().getType() == Material.COMPASS){
