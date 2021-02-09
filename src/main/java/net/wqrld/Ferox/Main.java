@@ -244,7 +244,7 @@ public class Main extends JavaPlugin  implements Listener {
                 return;
             }
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://nl1.ferox.host:3306/s1733_feroxcore", "u1733_Pq1JbjL23w", "U2dsL2y9@7tuFeA@b.J8toQz");
+            connection = DriverManager.getConnection("jdbc:mysql://nl1.ferox.host:3306/s1733_feroxcore", "u1733_Pq1JbjL23w", this.getConfig().getString("mysqlpassword"));
         }
     }
 
