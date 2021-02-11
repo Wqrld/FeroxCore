@@ -1,8 +1,8 @@
 name: FeroxCore
-version: 1.1.0
+version: 1.2
 author: Wqrld
 main: net.wqrld.Ferox.Main
-api-version: 1.12
+api-version: 1.8
 depend: [PlaceholderAPI]
 commands:
    join:

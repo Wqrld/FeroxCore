@@ -7,7 +7,9 @@ import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import net.wqrld.Ferox.Commands.Pastemap;
 import net.wqrld.Ferox.Main;
 import org.bukkit.*;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -41,22 +43,52 @@ public class MatchManager {
 
     public static void givearmor(Player p, Color c) {
         ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
-        ItemStack chest = new ItemStack(Material.LEATHER_CHESTPLATE);
+        ItemStack chest = new ItemStack(Material.CHAINMAIL_CHESTPLATE);
         ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS);
         ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
+        //apply color
         LeatherArmorMeta meta = (LeatherArmorMeta) helmet.getItemMeta();
         meta.setColor(c);
         helmet.setItemMeta(meta);
-        chest.setItemMeta(meta);
         leggings.setItemMeta(meta);
         boots.setItemMeta(meta);
+        //place in inventory
         p.getInventory().setHelmet(helmet);
         p.getInventory().setChestplate(chest);
         p.getInventory().setLeggings(leggings);
         p.getInventory().setBoots(boots);
-
-
+        //apply
+        p.updateInventory();
     }
+
+    public static void giveitems(Player p) {
+        Inventory inv = p.getInventory();
+        //init items
+        ItemStack sword = new ItemStack(Material.STONE_SWORD);
+        ItemStack bow = new ItemStack(Material.BOW);
+        ItemStack pickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
+        ItemStack axe = new ItemStack(Material.STONE_AXE);
+        ItemStack arrows = new ItemStack(Material.ARROW, 64);
+        ItemStack logs = new ItemStack(Material.LOG, 64);
+        ItemStack glass = new ItemStack(Material.GLASS, 64);
+        ItemStack gapple = new ItemStack(Material.GOLDEN_APPLE);
+        ItemStack steak = new ItemStack(Material.COOKED_BEEF, 64);
+        //add stuff
+        pickaxe.addEnchantment(Enchantment.DIG_SPEED, 1);
+        //add to inv
+        inv.setItem(0, sword);
+        inv.setItem(1, bow);
+        inv.setItem(2, pickaxe);
+        inv.setItem(3, axe);
+        inv.setItem(4, arrows);
+        inv.setItem(5, logs);
+        inv.setItem(6, glass);
+        inv.setItem(7, gapple);
+        inv.setItem(8, steak);
+        //apply
+        p.updateInventory();
+    }
+
 
     public static void breaknexus(String nexus) {
         if (nexus.equalsIgnoreCase("rednexus1")) {
@@ -124,9 +156,6 @@ public class MatchManager {
 
 
     }
-
-
-
 
     public static void endgame() {
         ItemStack i = new ItemStack(Material.COMPASS);

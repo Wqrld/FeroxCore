@@ -6,6 +6,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -28,7 +29,7 @@ public class DeathListener implements Listener {
                     drop.getType() == Material.DIAMOND_PICKAXE ||
                     drop.getType() == Material.STONE_AXE ||
                     drop.getType() == Material.LEATHER_LEGGINGS ||
-                    drop.getType() == Material.LEATHER_CHESTPLATE ||
+                    drop.getType() == Material.CHAINMAIL_CHESTPLATE ||
                     drop.getType() == Material.LEATHER_HELMET) {
                 i.remove();
             }
@@ -47,6 +48,8 @@ public class DeathListener implements Listener {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
+        } else if (e.getEntity().getLastDamageCause().equals(EntityDamageEvent.DamageCause.VOID)) {
+            e.setDeathMessage(e.getEntity().getName() + " is gestorven aan luc'ism");
         }
 
 

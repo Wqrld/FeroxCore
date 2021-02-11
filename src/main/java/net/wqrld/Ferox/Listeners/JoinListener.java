@@ -31,6 +31,7 @@ public class JoinListener implements Listener{
         //Location loc = new Location(world, 89.5, 28, -90.5, 90, 1);
         e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("spawn"));
         e.getPlayer().setGameMode(GameMode.SURVIVAL);
+        /*
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -40,6 +41,8 @@ public class JoinListener implements Listener{
 
                 runTaskLater(Main.plugin, 20);
 //§✅✘✔
+
+         */
 
 
         if (!e.getPlayer().getName().equalsIgnoreCase("Xirial")) {

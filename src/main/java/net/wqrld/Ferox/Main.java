@@ -30,8 +30,6 @@ import java.util.stream.Collectors;
 public class Main extends JavaPlugin  implements Listener {
 
     private Connection connection;
-    private String host, database, username, password;
-    private int port;
 
     public static Statement statement;
     public static Main plugin;
@@ -60,7 +58,6 @@ public class Main extends JavaPlugin  implements Listener {
         getServer().getPluginManager().registerEvents(new LeafListener(), this);
         getServer().getPluginManager().registerEvents(new WeatherListener(), this);
         getServer().getPluginManager().registerEvents(new FoodListener(), this);
-        getServer().getPluginManager().registerEvents(new KillListener(), this);
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             Bukkit.broadcastMessage("placeholderapi found");
             new PLH().register();
@@ -100,7 +97,31 @@ public class Main extends JavaPlugin  implements Listener {
 
         runnable.runTaskAsynchronously(this);
 
+        World Sahara = Bukkit.getWorld("Sahara");
+        RotationManager.addmap(
+                new Gamemap("Xirial",//author
+                        "Sahara",//name
+                        2,
 
+                        new Location(Sahara, -66, 65, -1, -90, 1),//redspawn
+                        new Location(Sahara, 65.5, 65, -1, 90, 1),//bluespawn
+                        new Location(Sahara, -0.5, 91, -71, 1, 1),//spawn
+
+                        new Location(Sahara, -69, 71, 4),//redspawn1
+                        new Location(Sahara, -66, 65, -6),//redspawn2
+
+                        new Location(Sahara, 67, 71, -5),//bluespawn1
+                        new Location(Sahara, 63, 65, 4),//bluespawn2
+
+                        new Location(Sahara, -9, 96, -77),//spawn1
+                        new Location(Sahara, 8, 84, -66),//spawn2
+
+                        new Location(Sahara, -50, 67, 47),//rednexus1
+                        new Location(Sahara, 48, 67, -49),//bluenexus1
+
+                        new Location(Sahara, -50, 67, -49),//rednexus2
+                        new Location(Sahara, 48, 67, 47)//bluenexus2
+                ));
 
 
 //        World aardvark = Bukkit.getWorld("aardvark");
@@ -128,7 +149,7 @@ public class Main extends JavaPlugin  implements Listener {
 //                        new Location(aardvark, -27, 24, -65),//rednexus2
 //                        new Location(aardvark, -111, 24, 69)//bluenexus2
 //                ));
-
+        /*
         World marina = Bukkit.getWorld("Marina");
         RotationManager.addmap(
                 new Gamemap("Xirial",//author
@@ -232,8 +253,7 @@ public class Main extends JavaPlugin  implements Listener {
                         new Location(palmrust, -27, 24, -65),//rednexus2
                         new Location(palmrust, -111, 24, -69)//bluenexus2
                 ));
-
-
+         */
     }
     public void openConnection() throws SQLException, ClassNotFoundException {
         if (connection != null && !connection.isClosed()) {
@@ -244,7 +264,7 @@ public class Main extends JavaPlugin  implements Listener {
                 return;
             }
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://nl1.ferox.host:3306/s1733_feroxcore", "u1733_Pq1JbjL23w", this.getConfig().getString("mysqlpassword"));
+            connection = DriverManager.getConnection("jdbc:mysql://" + this.getConfig().getString("mysqlhost") + "/" + this.getConfig().getString("mysqldatabase"), this.getConfig().getString("mysqluser"), this.getConfig().getString("mysqlpassword"));
         }
     }
 
