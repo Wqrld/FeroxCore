@@ -34,16 +34,13 @@ public class RespawnHandler implements Listener {
             @Override
             public void run() {
                 if (TeamManager.getred().contains(e.getPlayer())) {
-
                     e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("redspawn"));
                     MatchManager.givearmor(e.getPlayer(), Color.RED);
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kit halcyon " + e.getPlayer().getName());
-                    //  e.getPlayer().getInventory().addItem(new ItemStack(Material.ARROW, 64));
+                    MatchManager.giveitems(e.getPlayer());
                 } else if (TeamManager.getblue().contains(e.getPlayer())) {
                     e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("bluespawn"));
                     MatchManager.givearmor(e.getPlayer(), Color.BLUE);
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kit halcyon " + e.getPlayer().getName());
-                    //   e.getPlayer().getInventory().addItem(new ItemStack(Material.ARROW, 64));
+                    MatchManager.giveitems(e.getPlayer());
                 } else {
                     e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("spawn"));
                     ItemStack i = new ItemStack(Material.COMPASS);

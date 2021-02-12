@@ -1,5 +1,6 @@
 package net.wqrld.Ferox.Commands;
 
+import net.jpountz.lz4.LZ4Utils;
 import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
@@ -29,6 +30,7 @@ public class Joincommand implements CommandExecutor, Listener {
         ((Player) sender).teleport(RotationManager.GetCurrentMap().getLocation("redspawn"));
 
         MatchManager.givearmor((Player) sender, Color.RED);
+        MatchManager.giveitems((Player) sender);
 
         sender.sendMessage("Joined §c§lRED");
     }
@@ -37,6 +39,7 @@ public class Joincommand implements CommandExecutor, Listener {
 
         ((Player) sender).teleport(RotationManager.GetCurrentMap().getLocation("bluespawn"));
         MatchManager.givearmor((Player) sender, Color.BLUE);
+        MatchManager.giveitems((Player) sender);
         sender.sendMessage("Joined §9§lBLUE");
     }
 
