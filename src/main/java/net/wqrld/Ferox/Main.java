@@ -149,7 +149,31 @@ public class Main extends JavaPlugin  implements Listener {
                         new Location(Castle, 94, 74, -31)//bluenexus2
                 ));
 
+        World Fallen = Bukkit.getWorld("Fallen");
+        RotationManager.addmap(
+                new Gamemap("Xirial",//author
+                        "Fallen",//name
+                        2,
 
+                        new Location(Fallen, 271, 66, -121, 90, 1),//redspawn
+                        new Location(Fallen, 120, 66, -121, -90, 1),//bluespawn
+                        new Location(Fallen, 195, 90, -170, 1, 1),//spawn
+
+                        new Location(Fallen, 274, 66, -119),//redspawn1
+                        new Location(Fallen, 270, 69, -123),//redspawn2
+
+                        new Location(Fallen, 115, 66, -123),//bluespawn1
+                        new Location(Fallen, 120, 69, -119),//bluespawn2
+
+                        new Location(Fallen, 205, 94, -176),//spawn1
+                        new Location(Fallen, 184, 85, -167),//spawn2
+
+                        new Location(Fallen, 249, 70, -146),//rednexus1
+                        new Location(Fallen, 141, 70, -96),//bluenexus1
+
+                        new Location(Fallen, 249, 70, -96),//rednexus2
+                        new Location(Fallen, 141, 70, -146)//bluenexus2
+                ));
 //        World aardvark = Bukkit.getWorld("aardvark");
 //        RotationManager.addmap(
 //                new Gamemap("Xirial",//author
