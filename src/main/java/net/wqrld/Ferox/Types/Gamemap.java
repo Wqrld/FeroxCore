@@ -90,6 +90,7 @@ public class Gamemap {
         }
         return null;
     }
+
     public String getName() {
         return name;
     }
