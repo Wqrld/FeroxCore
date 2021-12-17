@@ -41,7 +41,7 @@ public class DeathListener implements Listener {
             ex.printStackTrace();
         }
         
-        if(e.getEntity().getKiller().getType() == EntityType.PLAYER){
+        if(e.getEntity().getKiller() != null && e.getEntity().getKiller().getType() == EntityType.PLAYER){
             UUID killeruuid = e.getEntity().getKiller().getUniqueId();
             try {
                 Main.statement.executeUpdate("INSERT INTO Stats VALUES ('" + killeruuid + "', 1, 0, 0, 0, 0, 0, 0, 0, 0) ON DUPLICATE KEY UPDATE kills = kills + 1");
