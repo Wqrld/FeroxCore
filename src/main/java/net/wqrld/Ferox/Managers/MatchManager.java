@@ -182,7 +182,7 @@ public class MatchManager {
             p.setGameMode(GameMode.SPECTATOR);
             //https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fredditpublic.com%2Fimages%2Fb%2Fb2%2FItems_slot_number.png&f=1
             UUID uuid = p.getUniqueId();
-            String query = "SELECT * FROM Stats";
+            String query = "SELECT 1+1";
             if (TeamManager.getblue().contains(p) && getwinner() == "Blue") {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 1, 0) ON DUPLICATE KEY UPDATE wins = wins + 1";
             } else if (TeamManager.getblue().contains(p) && getwinner() == "Red") {

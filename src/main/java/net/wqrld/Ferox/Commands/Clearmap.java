@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class ClearMap implements CommandExecutor {
+public class Clearmap implements CommandExecutor {
     // World world = Bukkit.getWorld("Spawn");
     //Location loc = new Location(world, 648, 26, -523);
     //   e.getPlayer().teleport(loc);
