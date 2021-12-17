@@ -109,10 +109,10 @@ public class Main extends JavaPlugin  implements Listener {
                         new Location(Sahara, -0.5, 91, -71, 1, 1),//spawn
 
                         new Location(Sahara, -69, 71, 4),//redspawn1
-                        new Location(Sahara, -66, 65, -6),//redspawn2
+                        new Location(Sahara, -66, 63, -6),//redspawn2
 
                         new Location(Sahara, 67, 71, -5),//bluespawn1
-                        new Location(Sahara, 63, 65, 4),//bluespawn2
+                        new Location(Sahara, 63, 63, 4),//bluespawn2
 
                         new Location(Sahara, -9, 96, -77),//spawn1
                         new Location(Sahara, 8, 84, -66),//spawn2
@@ -135,10 +135,10 @@ public class Main extends JavaPlugin  implements Listener {
                         new Location(Castle, 0.5, 87, -61, 1, 1),//spawn
 
                         new Location(Castle, -90, 69, -4),//redspawn1
-                        new Location(Castle, -97, 64, 6),//redspawn2
+                        new Location(Castle, -97, 62, 6),//redspawn2
 
                         new Location(Castle, 90, 69, -4),//bluespawn1
-                        new Location(Castle, 96, 64, -6),//bluespawn2
+                        new Location(Castle, 96, 62, -6),//bluespawn2
 
                         new Location(Castle, 7, 94, -65),//spawn1
                         new Location(Castle, -10, 81, -52),//spawn2
@@ -160,10 +160,10 @@ public class Main extends JavaPlugin  implements Listener {
                         new Location(Fallen, 120, 66, -121, -90, 1),//bluespawn
                         new Location(Fallen, 195, 90, -170, 1, 1),//spawn
 
-                        new Location(Fallen, 274, 66, -119),//redspawn1
+                        new Location(Fallen, 274, 64, -119),//redspawn1
                         new Location(Fallen, 270, 69, -123),//redspawn2
 
-                        new Location(Fallen, 115, 66, -123),//bluespawn1
+                        new Location(Fallen, 115, 64, -123),//bluespawn1
                         new Location(Fallen, 120, 69, -119),//bluespawn2
 
                         new Location(Fallen, 205, 94, -176),//spawn1

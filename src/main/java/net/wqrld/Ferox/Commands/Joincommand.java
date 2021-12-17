@@ -112,18 +112,17 @@ if(sender.isOp()) {
         if (e.getInventory().getTitle().equalsIgnoreCase("Join")) {
 
           if(e.getCurrentItem().getType() == Material.WOOL) {
-              e.getWhoClicked().getInventory().clear();
-              e.getWhoClicked().setGameMode(GameMode.SURVIVAL);
-              e.getWhoClicked().setHealth(20);
-              Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kit halcyon " + e.getWhoClicked().getName());
-
-
-
               if (e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getDurability() == 0) {
+                  e.getWhoClicked().getInventory().clear();
+                  e.getWhoClicked().setGameMode(GameMode.SURVIVAL);
+                  e.getWhoClicked().setHealth(20);
                   autojoin(e.getWhoClicked());
                   joinmessage(e.getWhoClicked());
               } else if (e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getDurability() == 14) {
                   if (e.getWhoClicked().isOp()) {
+                      e.getWhoClicked().getInventory().clear();
+                      e.getWhoClicked().setGameMode(GameMode.SURVIVAL);
+                      e.getWhoClicked().setHealth(20);
                       addtored(e.getWhoClicked());
                       joinmessage(e.getWhoClicked());
                   } else {
@@ -131,6 +130,9 @@ if(sender.isOp()) {
                   }
               } else if (e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getDurability() == 11) {
                   if (e.getWhoClicked().isOp()) {
+                      e.getWhoClicked().getInventory().clear();
+                      e.getWhoClicked().setGameMode(GameMode.SURVIVAL);
+                      e.getWhoClicked().setHealth(20);
                       addtoblue(e.getWhoClicked());
                       joinmessage(e.getWhoClicked());
                   } else {
