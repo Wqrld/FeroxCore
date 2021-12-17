@@ -69,9 +69,14 @@ public class DeathListener implements Listener {
             e.setDeathMessage(e.getEntity().getName() + " is gestorven aan luc'ism");
         }
 
-
-
         e.setDeathMessage(e.getDeathMessage().replace(e.getEntity().getPlayer().getDisplayName(), getColor(e.getEntity()) + e.getEntity().getPlayer().getDisplayName() + "§7"));
+//TODO eigen naam altijd bold maken / eigen kill messages bold
+
+        if(e.getEntity().getKiller() != null && e.getEntity().getKiller().getType() == EntityType.PLAYER){
+            String killerUserName = e.getEntity().getKiller().getPlayer().getName();
+            e.setDeathMessage(e.getDeathMessage().replace(killerUserName, getColor(e.getEntity().getKiller().getPlayer()) + killerUserName + "§7"));
+
+        }
 
     }
 }

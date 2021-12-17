@@ -25,7 +25,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class MatchManager {
-    private static boolean red1broken, blue1broken, red2broken, blue2broken;
+    private static boolean red1broken, blue1broken, red2broken, blue2broken, red3broken, blue3broken;
     private static Date matchstart = new Date();
     public static boolean gamestarted = true;
     public static String lastwinner = "Red";
@@ -103,7 +103,27 @@ public class MatchManager {
         if (nexus.equalsIgnoreCase("bluenexus2")) {
             blue2broken = true;
         }
+        if (nexus.equalsIgnoreCase("rednexus3")) {
+            red3broken = true;
+        }
+        if (nexus.equalsIgnoreCase("bluenexus3")) {
+            blue3broken = true;
+        }
         Bukkit.getConsoleSender().sendMessage("broken nexus " + nexus);
+    }
+
+    public static boolean AreAllBroken(String color){
+        if(RotationManager.GetCurrentMap().getNexuscount().equals(1)){
+            return isBroken(color + "nexus1");
+        }
+        if(RotationManager.GetCurrentMap().getNexuscount().equals(2)){
+            return (isBroken(color + "nexus1") && isBroken(color + "nexus2"));
+        }
+        if(RotationManager.GetCurrentMap().getNexuscount().equals(3)){
+            return (isBroken(color + "nexus1") && isBroken(color + "nexus3") && isBroken(color + "nexus3"));
+        }
+
+        return false;
     }
 
     public static boolean isBroken(String nexus) {
@@ -116,6 +136,10 @@ public class MatchManager {
         } else if (nexus.equalsIgnoreCase("bluenexus1") && blue1broken == true) {
             return true;
         } else if (nexus.equalsIgnoreCase("bluenexus2") && blue2broken == true) {
+            return true;
+        } else if (nexus.equalsIgnoreCase("rednexus3") && red3broken == true) {
+            return true;
+        } else if (nexus.equalsIgnoreCase("bluenexus3") && blue3broken == true) {
             return true;
         } else {
             return false;
@@ -168,8 +192,10 @@ public class MatchManager {
 
         blue1broken = false;
         blue2broken = false;
+        blue3broken = false;
         red1broken = false;
         red2broken = false;
+        red3broken = false;
         for (Player p : Bukkit.getOnlinePlayers()) {
 
             //  p.teleport(RotationManager.GetCurrentMap().getLocation("Spawn"));
@@ -182,7 +208,7 @@ public class MatchManager {
             p.setGameMode(GameMode.SPECTATOR);
             //https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fredditpublic.com%2Fimages%2Fb%2Fb2%2FItems_slot_number.png&f=1
             UUID uuid = p.getUniqueId();
-            String query = "SELECT 1+1";
+            String query = "";
             if (TeamManager.getblue().contains(p) && getwinner() == "Blue") {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 1, 0) ON DUPLICATE KEY UPDATE wins = wins + 1";
             } else if (TeamManager.getblue().contains(p) && getwinner() == "Red") {
@@ -193,10 +219,13 @@ public class MatchManager {
             else if (TeamManager.getred().contains(p) && getwinner() == "Blue") {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 0, 1) ON DUPLICATE KEY UPDATE loses = loses + 1";
             }
-            try {
-                Main.statement.executeUpdate(query);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+            if(!query.equalsIgnoreCase("")){
+                try {
+                    Main.statement.executeUpdate(query);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+
             }
 
 

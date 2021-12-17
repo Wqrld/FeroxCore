@@ -24,19 +24,7 @@ public class BreakListener implements Listener {
             if (e.getBlock().getLocation().equals(RotationManager.GetCurrentMap().getLocation("rednexus"))) {
 
                 if (TeamManager.getblue().contains(e.getPlayer())) {
-                    e.getPlayer().getServer().broadcastMessage(e.getPlayer().getDisplayName() + " broke a §c§lRed§r nexus!");
-                    e.getBlock().setType(Material.AIR);
-                    MatchManager.breaknexus("rednexus1");
-                    if (RotationManager.GetCurrentMap().getNexuscount().equals(1)) {
-                        MatchManager.setwinner("Blue");
-                        MatchManager.endgame();
-                    } else {
-                        if (MatchManager.isBroken("rednexus2")) {
-                            MatchManager.Monumentbroken(e.getPlayer());
-                            MatchManager.setwinner("Blue");
-                            MatchManager.endgame();
-                        }
-                    }
+                    ProcessRedNexusBroken(e, "rednexus1");
                 } else {
                     e.getPlayer().sendMessage("nope");
                     e.setCancelled(true);
@@ -44,19 +32,15 @@ public class BreakListener implements Listener {
             } else if (e.getBlock().getLocation().equals(RotationManager.GetCurrentMap().getLocation("rednexus2"))) {
 
                 if (TeamManager.getblue().contains(e.getPlayer())) {
-                    e.getPlayer().getServer().broadcastMessage(e.getPlayer().getDisplayName() + " broke a §c§lRed§r nexus!");
-                    e.getBlock().setType(Material.AIR);
-                    MatchManager.breaknexus("rednexus2");
-                    if (RotationManager.GetCurrentMap().getNexuscount().equals(1)) {
-                        MatchManager.setwinner("Blue");
-                        MatchManager.endgame();
-                    } else {
-                        if (MatchManager.isBroken("rednexus1")) {
-                            MatchManager.setwinner("Blue");
-                            MatchManager.Monumentbroken(e.getPlayer());
-                            MatchManager.endgame();
-                        }
-                    }
+                    ProcessRedNexusBroken(e, "rednexus2");
+                } else {
+                    e.getPlayer().sendMessage("nope");
+                    e.setCancelled(true);
+                }
+            } else if (e.getBlock().getLocation().equals(RotationManager.GetCurrentMap().getLocation("rednexus3"))) {
+
+                if (TeamManager.getblue().contains(e.getPlayer())) {
+                    ProcessRedNexusBroken(e, "rednexus3");
                 } else {
                     e.getPlayer().sendMessage("nope");
                     e.setCancelled(true);
@@ -65,19 +49,7 @@ public class BreakListener implements Listener {
             } else if (e.getBlock().getLocation().equals(RotationManager.GetCurrentMap().getLocation("bluenexus"))) {
 
                 if (TeamManager.getred().contains(e.getPlayer())) {
-                    e.getPlayer().getServer().broadcastMessage(e.getPlayer().getDisplayName() + " broke a §9§lBlue§r nexus!");
-                    e.getBlock().setType(Material.AIR);
-                    MatchManager.breaknexus("bluenexus1");
-                    if (RotationManager.GetCurrentMap().getNexuscount().equals(1)) {
-                        MatchManager.setwinner("Red");
-                        MatchManager.Monumentbroken(e.getPlayer());
-                        MatchManager.endgame();
-                    } else {
-                        if (MatchManager.isBroken("bluenexus2")) {
-                            MatchManager.setwinner("Red");
-                            MatchManager.endgame();
-                        }
-                    }
+                    ProcessBlueNexusBroken(e, "bluenexus1");
                 } else {
                     e.getPlayer().sendMessage("nope");
                     e.setCancelled(true);
@@ -85,19 +57,16 @@ public class BreakListener implements Listener {
             } else if (e.getBlock().getLocation().equals(RotationManager.GetCurrentMap().getLocation("bluenexus2"))) {
 
                 if (TeamManager.getred().contains(e.getPlayer())) {
-                    e.getPlayer().getServer().broadcastMessage(e.getPlayer().getDisplayName() + " broke a §9§lBlue§r nexus!");
-                    e.getBlock().setType(Material.AIR);
-                    MatchManager.breaknexus("bluenexus2");
-                    if (RotationManager.GetCurrentMap().getNexuscount().equals(1)) {
-                        MatchManager.setwinner("Red");
-                        MatchManager.Monumentbroken(e.getPlayer());
-                        MatchManager.endgame();
-                    } else {
-                        if (MatchManager.isBroken("bluenexus1")) {
-                            MatchManager.setwinner("Red");
-                            MatchManager.endgame();
-                        }
-                    }
+                    ProcessBlueNexusBroken(e, "bluenexus2");
+                } else {
+                    e.getPlayer().sendMessage("nope");
+                    e.setCancelled(true);
+                }
+
+            } else if (e.getBlock().getLocation().equals(RotationManager.GetCurrentMap().getLocation("bluenexus3"))) {
+
+                if (TeamManager.getred().contains(e.getPlayer())) {
+                    ProcessBlueNexusBroken(e, "bluenexus3");
                 } else {
                     e.getPlayer().sendMessage("nope");
                     e.setCancelled(true);
@@ -109,6 +78,30 @@ public class BreakListener implements Listener {
 
         }
 
+    }
 
+    private void ProcessBlueNexusBroken(BlockBreakEvent e, String NexusName) {
+        e.getPlayer().getServer().broadcastMessage(e.getPlayer().getDisplayName() + " broke a §9§lBlue§r nexus!");
+        e.getBlock().setType(Material.AIR);
+        MatchManager.breaknexus(NexusName);
+        MatchManager.Monumentbroken(e.getPlayer());
+
+        if(MatchManager.AreAllBroken("blue")){
+            MatchManager.setwinner("Red");;
+            MatchManager.endgame();
+        }
+    }
+
+    private void ProcessRedNexusBroken(BlockBreakEvent e, String nexusName) {
+        e.getPlayer().getServer().broadcastMessage(e.getPlayer().getDisplayName() + " broke a §c§lRed§r nexus!");
+        e.getBlock().setType(Material.AIR);
+        MatchManager.breaknexus(nexusName);
+        MatchManager.Monumentbroken(e.getPlayer());
+
+        if(MatchManager.AreAllBroken("red")){
+            MatchManager.setwinner("Blue");;
+            MatchManager.endgame();
+        }
     }
 }
+

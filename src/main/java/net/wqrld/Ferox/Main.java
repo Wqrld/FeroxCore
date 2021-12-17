@@ -155,7 +155,7 @@ public class Main extends JavaPlugin  implements Listener {
         RotationManager.addmap(
                 new Gamemap("Xirial",//author
                         "Fallen",//name
-                        2,
+                        3,
 
                         new Location(Fallen, 271, 66, -121, 90, 1),//redspawn
                         new Location(Fallen, 120, 66, -121, -90, 1),//bluespawn
@@ -174,7 +174,11 @@ public class Main extends JavaPlugin  implements Listener {
                         new Location(Fallen, 141, 70, -96),//bluenexus1
 
                         new Location(Fallen, 249, 70, -96),//rednexus2
-                        new Location(Fallen, 141, 70, -146)//bluenexus2
+                        new Location(Fallen, 141, 70, -146),//bluenexus2
+
+                new Location(Fallen, 310, 71, 2-121),//rednexus3
+                new Location(Fallen, 80, 71, -121)//bluenexus3
+
                 ));
 //        World aardvark = Bukkit.getWorld("aardvark");
 //        RotationManager.addmap(
