@@ -85,18 +85,21 @@ public class Joincommand implements CommandExecutor, Listener {
         random.setItemMeta(meta);
         inv.setItem(4, random);
 
+if(sender.isOp()) {
 
-        ItemStack red = new ItemStack(Material.WOOL, 1, (byte) 14);
-        ItemMeta redmeta = red.getItemMeta();
-        redmeta.setDisplayName("§c§lJoin RED");
-        red.setItemMeta(redmeta);
-        inv.setItem(2, red);
 
-        ItemStack blue = new ItemStack(Material.WOOL, 1, (byte) 11);
-        ItemMeta bluemeta = blue.getItemMeta();
-        bluemeta.setDisplayName("§9§lJoin blue");
-        blue.setItemMeta(bluemeta);
-        inv.setItem(6, blue);
+    ItemStack red = new ItemStack(Material.WOOL, 1, (byte) 14);
+    ItemMeta redmeta = red.getItemMeta();
+    redmeta.setDisplayName("§c§lJoin RED");
+    red.setItemMeta(redmeta);
+    inv.setItem(2, red);
+
+    ItemStack blue = new ItemStack(Material.WOOL, 1, (byte) 11);
+    ItemMeta bluemeta = blue.getItemMeta();
+    bluemeta.setDisplayName("§9§lJoin blue");
+    blue.setItemMeta(bluemeta);
+    inv.setItem(6, blue);
+}
 
 
         ((Player) sender).openInventory(inv);
