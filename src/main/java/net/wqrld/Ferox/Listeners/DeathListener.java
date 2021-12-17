@@ -1,6 +1,7 @@
 package net.wqrld.Ferox.Listeners;
 
 import net.wqrld.Ferox.Main;
+import net.wqrld.Ferox.Managers.TeamManager;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -17,8 +18,24 @@ import java.util.List;
 import java.util.UUID;
 
 public class DeathListener implements Listener {
+
+    private String getColor(Player player){
+        if (TeamManager.getblue().contains(player)) {
+            return "§9";
+        } else if (TeamManager.getred().contains(player)) {
+            return "§c";
+        } else {
+            return "§f";
+        }
+    }
+
     @EventHandler
     public void ondeath(PlayerDeathEvent e) {
+
+        if(e.getEntityType() != EntityType.PLAYER){
+            return;
+        }
+
         List<ItemStack> list = e.getDrops();
         Iterator<ItemStack> i = list.iterator();
         while (i.hasNext()) {
@@ -52,6 +69,9 @@ public class DeathListener implements Listener {
             e.setDeathMessage(e.getEntity().getName() + " is gestorven aan luc'ism");
         }
 
+
+
+        e.setDeathMessage(e.getDeathMessage().replace(e.getEntity().getPlayer().getDisplayName(), getColor(e.getEntity()) + e.getEntity().getPlayer().getDisplayName() + "§7"));
 
     }
 }
