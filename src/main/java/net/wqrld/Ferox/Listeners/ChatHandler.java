@@ -37,7 +37,7 @@ public class ChatHandler implements Listener {
         }
 
 
-        String oldformat = color + "%%luckperms_meta_prefix%%§r" + color + "%%player_name%%§7> §f";
+        String oldformat = color + "§r" + color + event.getPlayer().getDisplayName() + "§7> §f";
         String format = PlaceholderAPI.setPlaceholders(event.getPlayer(), oldformat) + event.getMessage();
 //        format = format.replace("%§", "%%§");
         //.replace("&", "§");
