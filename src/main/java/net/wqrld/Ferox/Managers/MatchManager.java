@@ -235,6 +235,7 @@ public static String switchWorlds(){
 
             //api met ints ne existe op 1.8
 
+
             if(getwinner() == "Blue"){
                 p.sendTitle(ChatColor.BLUE + "" + ChatColor.BOLD + "Blue " + ChatColor.RESET + ChatColor.GRAY + "has won!", "");
             }else{
@@ -255,13 +256,16 @@ public static String switchWorlds(){
             String query = "";
             if (TeamManager.getblue().contains(p) && getwinner() == "Blue") {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 1, 0) ON DUPLICATE KEY UPDATE wins = wins + 1";
+                p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Red " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.GREEN + "You win!");
             } else if (TeamManager.getblue().contains(p) && getwinner() == "Red") {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 0, 1) ON DUPLICATE KEY UPDATE loses = loses + 1";
+                p.sendTitle(ChatColor.BLUE + "" + ChatColor.BOLD + "Blue " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.RED + "Better luck next time");
             }else if (TeamManager.getred().contains(p) && getwinner() == "Red") {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 1, 0) ON DUPLICATE KEY UPDATE wins = wins + 1";
-            }
-            else if (TeamManager.getred().contains(p) && getwinner() == "Blue") {
+                p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Red " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.GREEN + "You win!");
+            }else if (TeamManager.getred().contains(p) && getwinner() == "Blue") {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 0, 1) ON DUPLICATE KEY UPDATE loses = loses + 1";
+                p.sendTitle(ChatColor.BLUE + "" + ChatColor.BOLD + "Blue " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.RED + "Better luck next time");
             }
             if(!query.equalsIgnoreCase("")){
                 try {
