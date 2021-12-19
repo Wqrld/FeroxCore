@@ -4,9 +4,7 @@ import net.wqrld.Ferox.Main;
 import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -18,10 +16,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class RespawnHandler implements Listener {
 
     @EventHandler
-    public void onDeath(PlayerDeathEvent e){
-        
+    public void onDeath(PlayerDeathEvent e) {
+
         new BukkitRunnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 e.getEntity().spigot().respawn();
             }
         }.runTaskLater(Main.plugin, 20);
@@ -34,18 +33,26 @@ public class RespawnHandler implements Listener {
             @Override
             public void run() {
                 if (TeamManager.getred().contains(e.getPlayer())) {
-                    e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("redspawn"));
+                    Location nextmap = RotationManager.GetCurrentMap().getLocation("redspawn");
+                    nextmap.setWorld(MatchManager.getCurrentMVBukkitWorld());
+                    e.getPlayer().teleport(nextmap);
                     MatchManager.givearmor(e.getPlayer(), Color.RED);
                     MatchManager.giveitems(e.getPlayer());
                 } else if (TeamManager.getblue().contains(e.getPlayer())) {
-                    e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("bluespawn"));
+                    Location nextmap = RotationManager.GetCurrentMap().getLocation("bluespawn");
+                    nextmap.setWorld(MatchManager.getCurrentMVBukkitWorld());
+                    e.getPlayer().teleport(nextmap);
                     MatchManager.givearmor(e.getPlayer(), Color.BLUE);
                     MatchManager.giveitems(e.getPlayer());
                 } else {
-                    e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("spawn"));
+
+                    Location nextmap = RotationManager.GetCurrentMap().getLocation("Spawn");
+                    nextmap.setWorld(MatchManager.getCurrentMVBukkitWorld());
+                    e.getPlayer().teleport(nextmap);
+
                     ItemStack i = new ItemStack(Material.COMPASS);
                     ItemMeta meta = i.getItemMeta();
-                    meta.setDisplayName("Click to join");
+                    meta.setDisplayName(ChatColor.RESET + "Click to join");
                     i.setItemMeta(meta);
                     //https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fredditpublic.com%2Fimages%2Fb%2Fb2%2FItems_slot_number.png&f=1
                     e.getPlayer().getInventory().setItem(0, i);

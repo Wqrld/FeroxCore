@@ -2,6 +2,7 @@ package net.wqrld.Ferox;
 
 import net.wqrld.Ferox.Commands.*;
 import net.wqrld.Ferox.Listeners.*;
+import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.PLH;
 import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Types.Gamemap;
@@ -11,6 +12,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.json.JSONArray;
@@ -36,6 +38,12 @@ public class Main extends JavaPlugin  implements Listener {
 
     public FileConfiguration fileConfiguration;
     private String prefix = "&8[&eFeroxCore&8] ";
+
+
+    static Plugin getPlugin(){
+        return plugin;
+    }
+
     @Override
     public void onEnable() {
         //Fired when the server enables the plugin
@@ -176,7 +184,7 @@ public class Main extends JavaPlugin  implements Listener {
                         new Location(Fallen, 249, 70, -96),//rednexus2
                         new Location(Fallen, 141, 70, -146),//bluenexus2
 
-                new Location(Fallen, 310, 71, 2-121),//rednexus3
+                new Location(Fallen, 310, 71, -121),//reddnexus3
                 new Location(Fallen, 80, 71, -121)//bluenexus3
 
                 ));
@@ -310,6 +318,10 @@ public class Main extends JavaPlugin  implements Listener {
                         new Location(palmrust, -111, 24, -69)//bluenexus2
                 ));
          */
+
+        MatchManager.setCurrentMVWorld(Main.plugin.getConfig().getString("worldID"));
+        RotationManager.setIndex(Main.plugin.getConfig().getInt("mapindex"));
+
     }
     public void openConnection() throws SQLException, ClassNotFoundException {
         if (connection != null && !connection.isClosed()) {
@@ -320,7 +332,7 @@ public class Main extends JavaPlugin  implements Listener {
                 return;
             }
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://" + this.getConfig().getString("mysqlhost") + "/" + this.getConfig().getString("mysqldatabase"), this.getConfig().getString("mysqluser"), this.getConfig().getString("mysqlpassword"));
+            connection = DriverManager.getConnection("jdbc:mysql://" + this.getConfig().getString("mysqlhost") + "/" + this.getConfig().getString("mysqldatabase") + "?autoReconnect=true", this.getConfig().getString("mysqluser"), this.getConfig().getString("mysqlpassword"));
         }
     }
 
@@ -343,7 +355,7 @@ public class Main extends JavaPlugin  implements Listener {
             } else {
                 getLogger().info("Config.yml found, loading!");
                 fileConfiguration = YamlConfiguration.loadConfiguration(file);
-                Bukkit.getConsoleSender().sendMessage(prefix + "&e - " + this.getConfig().getString("test"));
+                Bukkit.getConsoleSender().sendMessage(prefix + "&e - " + this.getConfig().getString("mysqlhost"));
 
             }
         } catch (Exception e) {

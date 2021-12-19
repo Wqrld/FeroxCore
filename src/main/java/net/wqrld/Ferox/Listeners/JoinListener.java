@@ -2,12 +2,10 @@ package net.wqrld.Ferox.Listeners;
 
 
 import net.wqrld.Ferox.Main;
+import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -29,7 +27,13 @@ public class JoinListener implements Listener{
         e.getPlayer().sendMessage("You were sent to spawn");
 
         //Location loc = new Location(world, 89.5, 28, -90.5, 90, 1);
-        e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("spawn"));
+        //e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("spawn"));
+
+        Location currentMap = RotationManager.GetCurrentMap().getLocation("spawn");
+        e.getPlayer().sendMessage(currentMap.toString());
+        currentMap.setWorld(MatchManager.getCurrentMVBukkitWorld());
+        e.getPlayer().teleport(currentMap);
+
         e.getPlayer().setGameMode(GameMode.SURVIVAL);
         /*
         new BukkitRunnable() {
@@ -59,6 +63,7 @@ public class JoinListener implements Listener{
         //https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fredditpublic.com%2Fimages%2Fb%2Fb2%2FItems_slot_number.png&f=1
         e.getPlayer().getInventory().setItem(0, i);
         e.getPlayer().setHealth(20);
+        e.getPlayer().setFoodLevel(20);
 
 
 

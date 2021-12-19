@@ -1,5 +1,7 @@
 package net.wqrld.Ferox.Managers;
 
+import com.onarandombox.MultiverseCore.MultiverseCore;
+import com.onarandombox.MultiverseCore.api.MVWorldManager;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitUtil;
@@ -30,7 +32,46 @@ public class MatchManager {
     public static boolean gamestarted = true;
     public static String lastwinner = "Red";
 
+    private static MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
 
+    public static String getNextWorld(){
+        if(CurrentMVWorld == "world1"){
+            return "world2";
+        }else{
+            return "world1";
+        }
+    }
+
+public static String switchWorlds(){
+    CurrentMVWorld = getNextWorld();
+    Main.plugin.getConfig().set("worldID", CurrentMVWorld);
+    Main.plugin.saveConfig();
+    return CurrentMVWorld;
+}
+
+    public static String getCurrentMVWorld() {
+        return CurrentMVWorld;
+    }
+
+    public static World getCurrentMVBukkitWorld(){
+        return Bukkit.getWorld(CurrentMVWorld);
+    }
+
+    public static World getNextMVBukkitWorld(){
+        return Bukkit.getWorld(getNextWorld());
+    }
+
+    public static void setCurrentMVWorld(String currentMVWorld) {
+        CurrentMVWorld = currentMVWorld;
+        Main.plugin.getConfig().set("worldID", CurrentMVWorld);
+        Main.plugin.saveConfig();
+    }
+
+
+
+    public static String CurrentMVWorld = Main.plugin.getConfig().getString("worldID");
+
+//TODO title on win / hotbar
     public static void setwinner(String winner) {
         lastwinner = winner;
     }
@@ -68,7 +109,7 @@ public class MatchManager {
         ItemStack bow = new ItemStack(Material.BOW);
         ItemStack pickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
         ItemStack axe = new ItemStack(Material.STONE_AXE);
-        ItemStack arrows = new ItemStack(Material.ARROW, 64);
+        ItemStack arrows = new ItemStack(Material.ARROW, 32);
         ItemStack logs = new ItemStack(Material.LOG, 64);
         ItemStack glass = new ItemStack(Material.GLASS, 64);
         ItemStack gapple = new ItemStack(Material.GOLDEN_APPLE);
@@ -120,7 +161,7 @@ public class MatchManager {
             return (isBroken(color + "nexus1") && isBroken(color + "nexus2"));
         }
         if(RotationManager.GetCurrentMap().getNexuscount().equals(3)){
-            return (isBroken(color + "nexus1") && isBroken(color + "nexus3") && isBroken(color + "nexus3"));
+            return (isBroken(color + "nexus1") && isBroken(color + "nexus2") && isBroken(color + "nexus3"));
         }
 
         return false;
@@ -190,13 +231,16 @@ public class MatchManager {
         gamestarted = false;
         Bukkit.broadcastMessage("§9Game ended");
 
-        blue1broken = false;
-        blue2broken = false;
-        blue3broken = false;
-        red1broken = false;
-        red2broken = false;
-        red3broken = false;
         for (Player p : Bukkit.getOnlinePlayers()) {
+
+            //api met ints ne existe op 1.8
+
+            if(getwinner() == "Blue"){
+                p.sendTitle(ChatColor.BLUE + "" + ChatColor.BOLD + "Blue " + ChatColor.RESET + ChatColor.GRAY + "has won!", "");
+            }else{
+                p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Red " + ChatColor.RESET + ChatColor.GRAY + "has won!", "");
+            }
+
 
             //  p.teleport(RotationManager.GetCurrentMap().getLocation("Spawn"));
 
@@ -237,9 +281,16 @@ public class MatchManager {
             @Override
             public void run() {
                 Bukkit.broadcastMessage("§9Starting reset...");
+                blue1broken = false;
+                blue2broken = false;
+                blue3broken = false;
+                red1broken = false;
+                red2broken = false;
+                red3broken = false;
                 for (Player p : Bukkit.getOnlinePlayers()) {
-
-                    p.teleport(RotationManager.GetNextMap().getLocation("Spawn"));
+                    Location nextmap = RotationManager.GetNextMap().getLocation("Spawn");
+                    nextmap.setWorld(getNextMVBukkitWorld());
+                    p.teleport(nextmap);
 
                     p.getInventory().setHelmet(null);
                     p.getInventory().setChestplate(null);
@@ -248,8 +299,8 @@ public class MatchManager {
                     p.getInventory().clear();
                     p.setGameMode(GameMode.SURVIVAL);
 
-                    p.getInventory().setItem(0, i);
                     p.setHealth(20);
+                    p.setFoodLevel(20);
 
                 }
 
@@ -257,7 +308,7 @@ public class MatchManager {
 
 
             }
-        }.runTaskLater(Main.plugin, 300);
+        }.runTaskLater(Main.plugin, 600);
 
     }
 
@@ -269,14 +320,54 @@ public class MatchManager {
         Bukkit.broadcastMessage("§9Next map: " + RotationManager.GetNextMap().getName());
 
 
-        Pastemap.pastemap();
+        MVWorldManager worldManager = core.getMVWorldManager();
+
+        if(getCurrentMVWorld() == "world2"){
+
+            // Remove all players before deleting world
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if(p.getWorld().getName() == "world1"){
+                    p.teleport(new Location(Bukkit.getWorld("world2"), 0, 0, 0));
+                }
+            }
+
+            worldManager.deleteWorld("world1");
+            //copied, newname
+            worldManager.cloneWorld(RotationManager.GetNextMap().getName(), "world1");
+            worldManager.getMVWorld("world1").setAlias("world1");
+        }else{
+
+            // Remove all players before deleting world
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if(p.getWorld().getName() == "world2"){
+                    p.teleport(new Location(Bukkit.getWorld("world1"), 0, 0, 0));
+                }
+            }
+
+            worldManager.deleteWorld("world2");
+            //copied, newname
+            worldManager.cloneWorld(RotationManager.GetNextMap().getName(), "world2");
+            worldManager.getMVWorld("world2").setAlias("world2");
+
+        }
+
+
+      //  Pastemap.pastemap();
 
 
         new BukkitRunnable() {
             @Override
             public void run() {
                 Bukkit.broadcastMessage("§9Reset done.");
+                MatchManager.switchWorlds();
                 RotationManager.upindex();
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    ItemStack i = new ItemStack(Material.COMPASS);
+                    ItemMeta meta = i.getItemMeta();
+                    meta.setDisplayName(ChatColor.RESET + "Click to join");
+                    i.setItemMeta(meta);
+                    p.getInventory().setItem(0, i);
+                }
                 startgame();
 
             }

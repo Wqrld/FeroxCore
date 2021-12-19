@@ -1,5 +1,6 @@
 package net.wqrld.Ferox.Commands;
 
+import net.wqrld.Ferox.Main;
 import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.RotationManager;
 import org.bukkit.command.Command;
@@ -39,6 +40,9 @@ public class Debugmap implements CommandExecutor {
             sender.sendMessage("looking at:" + player.getTargetBlock(null, 20).getLocation().toString());
             sender.sendMessage("---------nexusstatusses-----------------------------");
             sender.sendMessage(MatchManager.getNexusStatusses());
+            sender.sendMessage("getCurrentMVWorld: " + MatchManager.getCurrentMVWorld());
+            sender.sendMessage("config mysqlhost");
+            sender.sendMessage(Main.plugin.getConfig().getString("mysqlhost"));
             return true;
 
         } else {

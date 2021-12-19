@@ -1,5 +1,6 @@
 package net.wqrld.Ferox.Managers;
 
+import net.wqrld.Ferox.Main;
 import net.wqrld.Ferox.Types.Gamemap;
 import org.bukkit.Bukkit;
 
@@ -27,8 +28,14 @@ public class RotationManager {
         } else {
             index++;
         }
+
+        Main.plugin.getConfig().set("mapIndex", index);
+        Main.plugin.saveConfig();
     }
 
+    public static void setIndex(int ind){
+        index = ind;
+    }
 
     public static ArrayList<Gamemap> getMaps() {
         return maps;

@@ -4,10 +4,7 @@ import net.jpountz.lz4.LZ4Utils;
 import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,7 +24,9 @@ public class Joincommand implements CommandExecutor, Listener {
     public void addtored(CommandSender sender){
         TeamManager.getred().add((Player) sender);
 
-        ((Player) sender).teleport(RotationManager.GetCurrentMap().getLocation("redspawn"));
+        Location currentMap = RotationManager.GetCurrentMap().getLocation("redspawn");
+        currentMap.setWorld(MatchManager.getCurrentMVBukkitWorld());
+        ((Player) sender).teleport(currentMap);
 
         MatchManager.givearmor((Player) sender, Color.RED);
         MatchManager.giveitems((Player) sender);
@@ -37,7 +36,9 @@ public class Joincommand implements CommandExecutor, Listener {
     public void addtoblue(CommandSender sender){
         TeamManager.getblue().add((Player) sender);
 
-        ((Player) sender).teleport(RotationManager.GetCurrentMap().getLocation("bluespawn"));
+        Location currentMap = RotationManager.GetCurrentMap().getLocation("bluespawn");
+        currentMap.setWorld(MatchManager.getCurrentMVBukkitWorld());
+        ((Player) sender).teleport(currentMap);
         MatchManager.givearmor((Player) sender, Color.BLUE);
         MatchManager.giveitems((Player) sender);
         sender.sendMessage("Joined §9§lBLUE");

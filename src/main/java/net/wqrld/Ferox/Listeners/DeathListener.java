@@ -1,7 +1,10 @@
 package net.wqrld.Ferox.Listeners;
 
 import net.wqrld.Ferox.Main;
+import net.wqrld.Ferox.Managers.MatchManager;
+import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -26,6 +29,18 @@ public class DeathListener implements Listener {
             return "§c";
         } else {
             return "§f";
+        }
+    }
+
+    @EventHandler
+    public void ondamage(EntityDamageEvent e){
+        if(e.getEntityType() == EntityType.PLAYER){
+            if(!TeamManager.getblue().contains((Player) e.getEntity()) && !TeamManager.getred().contains((Player) e.getEntity())){
+                e.setCancelled(true);
+                Location currentMap = RotationManager.GetCurrentMap().getLocation("Spawn");
+                currentMap.setWorld(MatchManager.getCurrentMVBukkitWorld());
+                e.getEntity().teleport(currentMap);
+            }
         }
     }
 
