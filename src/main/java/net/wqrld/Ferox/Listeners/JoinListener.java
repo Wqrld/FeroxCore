@@ -30,7 +30,10 @@ public class JoinListener implements Listener{
         //e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("spawn"));
 
         Location currentMap = RotationManager.GetCurrentMap().getLocation("spawn");
-        e.getPlayer().sendMessage(currentMap.toString());
+        if(e.getPlayer().getDisplayName().equalsIgnoreCase("wqrld")){
+            e.getPlayer().sendMessage(currentMap.toString());
+        }
+
         currentMap.setWorld(MatchManager.getCurrentMVBukkitWorld());
         e.getPlayer().teleport(currentMap);
 

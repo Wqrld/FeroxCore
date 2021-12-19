@@ -29,7 +29,7 @@ public class RotationManager {
             index++;
         }
 
-        Main.plugin.getConfig().set("mapIndex", index);
+        Main.plugin.getConfig().set("mapindex", index);
         Main.plugin.saveConfig();
     }
 
