@@ -186,7 +186,7 @@ public static void switchWorlds(){
         long minutes = TimeUnit.MILLISECONDS.toMinutes(duration) % 60;
         long seconds = TimeUnit.MILLISECONDS.toSeconds(duration) % 60;
         if (hours < 1) {
-            return String.format("%02d Minutes", minutes, seconds);
+            return String.format("%02d Minutes", minutes);
         } else {
             return String.format("%02d:%02d", hours, minutes);
         }

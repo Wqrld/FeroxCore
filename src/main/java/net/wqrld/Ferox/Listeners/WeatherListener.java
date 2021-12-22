@@ -8,7 +8,7 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 public class WeatherListener implements Listener {
     @EventHandler
     public void onWeatherChange(WeatherChangeEvent e) {
-        if(e.toWeatherState() == true){ //regen
+        if(e.toWeatherState()){ //regen
             e.setCancelled(true);
         }
 

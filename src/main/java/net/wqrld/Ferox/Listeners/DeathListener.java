@@ -80,8 +80,6 @@ public class DeathListener implements Listener {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        } else if (e.getEntity().getLastDamageCause().equals(EntityDamageEvent.DamageCause.VOID)) {
-            e.setDeathMessage(e.getEntity().getName() + " is gestorven aan luc'ism");
         }
 
         e.setDeathMessage(e.getDeathMessage().replace(e.getEntity().getPlayer().getDisplayName(), getColor(e.getEntity()) + e.getEntity().getPlayer().getDisplayName() + "§7"));
