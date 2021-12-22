@@ -1,6 +1,7 @@
 package net.wqrld.Ferox.Commands;
 
 import net.jpountz.lz4.LZ4Utils;
+import net.wqrld.Ferox.Managers.GameStatTracker;
 import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
@@ -32,6 +33,11 @@ public class Joincommand implements CommandExecutor, Listener {
         MatchManager.giveitems((Player) sender);
 
         sender.sendMessage("Joined §c§lRED");
+
+        GameStatTracker.matchkills.put((Player) sender, 0);
+        GameStatTracker.matchdeaths.put((Player) sender, 0);
+        GameStatTracker.blocksplaced.put((Player) sender, 0);
+
     }
     public void addtoblue(CommandSender sender){
         TeamManager.getblue().add((Player) sender);
@@ -39,9 +45,15 @@ public class Joincommand implements CommandExecutor, Listener {
         Location currentMap = RotationManager.GetCurrentMap().getLocation("bluespawn");
         currentMap.setWorld(MatchManager.getCurrentMVBukkitWorld());
         ((Player) sender).teleport(currentMap);
+
         MatchManager.givearmor((Player) sender, Color.BLUE);
         MatchManager.giveitems((Player) sender);
+
         sender.sendMessage("Joined §9§lBLUE");
+
+        GameStatTracker.matchkills.put((Player) sender, 0);
+        GameStatTracker.matchdeaths.put((Player) sender, 0);
+        GameStatTracker.blocksplaced.put((Player) sender, 0);
     }
 
     public void autojoin(CommandSender sender) {

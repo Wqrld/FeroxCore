@@ -1,6 +1,7 @@
 package net.wqrld.Ferox.Listeners;
 
 import net.wqrld.Ferox.Main;
+import net.wqrld.Ferox.Managers.GameStatTracker;
 import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
@@ -70,6 +71,7 @@ public class DeathListener implements Listener {
         }
         UUID uuid = e.getEntity().getUniqueId();
         try {
+          GameStatTracker.matchdeaths.put(e.getEntity(), GameStatTracker.matchdeaths.get(e.getEntity()) + 1);
           Main.statement.executeUpdate("INSERT INTO Stats VALUES ('" + uuid + "', 0, 1, 0, 0, 0, 0, 0, 0, 0) ON DUPLICATE KEY UPDATE deaths = deaths + 1");
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -101,8 +103,10 @@ public class DeathListener implements Listener {
             UUID killeruuid;
             if(killer != null){
                 killeruuid = killer.getUniqueId();
+                GameStatTracker.matchkills.put((Player) killer, GameStatTracker.matchkills.get(killer) + 1);
             }else{
                 killeruuid = e.getEntity().getKiller().getUniqueId();
+                GameStatTracker.matchkills.put(e.getEntity().getKiller(), GameStatTracker.matchkills.get(e.getEntity().getKiller()) + 1);
             }
 
             try {

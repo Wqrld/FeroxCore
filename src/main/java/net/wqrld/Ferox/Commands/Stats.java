@@ -36,7 +36,7 @@ public class Stats implements CommandExecutor {
         try {
             ResultSet result = Main.statement.executeQuery("SELECT * FROM Stats where uuid = '" + uuid + "'");
             if(result.next()){
-                sender.sendMessage(ChatColor.DARK_GRAY + "======== Stats for player " + ChatColor.WHITE + player.getName() + ChatColor.DARK_GRAY + " ==============");
+                sender.sendMessage(ChatColor.DARK_GRAY + "======== Stats for player " + ChatColor.WHITE + player.getName() + ChatColor.DARK_GRAY + " ===============");
                 sender.sendMessage(ChatColor.GRAY + "Kills: " + ChatColor.WHITE + result.getInt("kills"));
                 sender.sendMessage(ChatColor.GRAY + "Deaths: " + ChatColor.WHITE + result.getInt("deaths"));
                 sender.sendMessage(ChatColor.GRAY + "Momuments: " + ChatColor.WHITE + result.getInt("monuments"));

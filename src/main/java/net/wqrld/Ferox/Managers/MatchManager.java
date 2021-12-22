@@ -271,9 +271,19 @@ public static void switchWorlds(){
             }
 
 
+           p.sendMessage(ChatColor.DARK_GRAY + "====== Game Stats for player " + ChatColor.WHITE + p.getName() + ChatColor.DARK_GRAY + " =========");
+           p.sendMessage(ChatColor.GRAY + "Kills: " + ChatColor.WHITE + GameStatTracker.matchkills.get(p));
+           p.sendMessage(ChatColor.GRAY + "Deaths: " + ChatColor.WHITE + GameStatTracker.matchdeaths.get(p));
+           p.sendMessage(ChatColor.GRAY + "Blocks Placed: " + ChatColor.WHITE + GameStatTracker.blocksplaced.get(p));
+           p.sendMessage(ChatColor.DARK_GRAY + "========================================");
+
+
         }
         TeamManager.getblue().clear();
         TeamManager.getred().clear();
+        GameStatTracker.matchkills.clear();
+        GameStatTracker.matchdeaths.clear();
+        GameStatTracker.blocksplaced.clear();
 
         new BukkitRunnable() {
             @Override

@@ -55,7 +55,8 @@ public class Main extends JavaPlugin  implements Listener {
         this.getCommand("debugmap").setExecutor(new Debugmap());
         this.getCommand("skipmap").setExecutor(new Skipmap());
         this.getCommand("stats").setExecutor(new Stats());
-   //     this.getCommand("clearmap").setExecutor(new Clearmap());
+        this.getCommand("setup").setExecutor(new Setup());
+        this.getCommand("clearmap").setExecutor(new Clearmap());
         getServer().getPluginManager().registerEvents(new JoinListener(), this);
         getServer().getPluginManager().registerEvents(new BreakListener(), this);
         getServer().getPluginManager().registerEvents(new Spawnprotection(), this);
@@ -68,6 +69,7 @@ public class Main extends JavaPlugin  implements Listener {
         getServer().getPluginManager().registerEvents(new WeatherListener(), this);
         getServer().getPluginManager().registerEvents(new FoodListener(), this);
         getServer().getPluginManager().registerEvents(new HungerListener(), this);
+        getServer().getPluginManager().registerEvents(new MapSetup(), this);
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             Bukkit.broadcastMessage("placeholderapi found");
             new PLH().register();

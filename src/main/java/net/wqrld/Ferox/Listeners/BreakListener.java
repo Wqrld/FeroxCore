@@ -1,5 +1,6 @@
 package net.wqrld.Ferox.Listeners;
 
+import net.wqrld.Ferox.Managers.GameStatTracker;
 import net.wqrld.Ferox.Managers.MatchManager;
 import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
@@ -88,7 +89,7 @@ public class BreakListener implements Listener {
 
 
         }
-
+        GameStatTracker.blocksplaced.put(e.getPlayer(), GameStatTracker.blocksplaced.get(e.getPlayer()) + 1);
     }
 
     private void ProcessBlueNexusBroken(BlockBreakEvent e, String NexusName) {
