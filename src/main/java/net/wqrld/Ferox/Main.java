@@ -133,6 +133,7 @@ public class Main extends JavaPlugin  implements Listener {
                         new Location(Sahara, 48, 67, 47)//bluenexus2
                 ));
 
+
         World Castle = Bukkit.getWorld("Castle");
         RotationManager.addmap(
                 new Gamemap("Xirial",//author
@@ -157,6 +158,32 @@ public class Main extends JavaPlugin  implements Listener {
 
                         new Location(Castle, -94, 74, -31),//rednexus2
                         new Location(Castle, 94, 74, -31)//bluenexus2
+                ));
+
+        World Sphinx = Bukkit.getWorld("Sphinx");
+        RotationManager.addmap(
+                new Gamemap("Xirial",//author
+                        "Sphinx",//name
+                        2,
+
+                        new Location(Sphinx, -136.5, 88, -1.5, -90, 1),//redspawn
+                        new Location(Sphinx, -32.5, 88, -1.5, 90, 1),//bluespawn
+                        new Location(Sphinx, -84.5, 112, -68.5, 1, 1),//spawn
+
+                        new Location(Sphinx, -131, 87, -7),//redspawn1
+                        new Location(Sphinx, -141, 93, 5),//redspawn2
+
+                        new Location(Sphinx, -37, 87, -6),//bluespawn1
+                        new Location(Sphinx, -27, 93, 5),//bluespawn2
+
+                        new Location(Sphinx, -80, 107, -61),//spawn1
+                        new Location(Sphinx, -88,117,-73),//spawn2
+
+                        new Location(Sphinx, -176,97,26),//rednexus1
+                        new Location(Sphinx, 6,97,26),//bluenexus1
+
+                        new Location(Sphinx, -176, 97, -30),//rednexus2
+                        new Location(Sphinx, 6,97,-30)//bluenexus2
                 ));
 
         World Fallen = Bukkit.getWorld("Fallen");

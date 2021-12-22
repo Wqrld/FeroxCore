@@ -18,6 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class JoinListener implements Listener{
 
@@ -85,7 +86,6 @@ public class JoinListener implements Listener{
             e.setCancelled(true);
         }
     }
-
     @EventHandler
     public void onleave(PlayerQuitEvent e) {
         if (TeamManager.getred().contains(e.getPlayer())) {

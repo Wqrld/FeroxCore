@@ -98,7 +98,7 @@ public class BreakListener implements Listener {
         MatchManager.Monumentbroken(e.getPlayer());
 
         if(MatchManager.AreAllBroken("blue")){
-            MatchManager.setwinner("Red");;
+            MatchManager.setwinner("Red");
             MatchManager.endgame();
         }
     }
@@ -110,7 +110,7 @@ public class BreakListener implements Listener {
         MatchManager.Monumentbroken(e.getPlayer());
 
         if(MatchManager.AreAllBroken("red")){
-            MatchManager.setwinner("Blue");;
+            MatchManager.setwinner("Blue");
             MatchManager.endgame();
         }
     }

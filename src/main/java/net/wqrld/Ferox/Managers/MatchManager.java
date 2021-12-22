@@ -194,7 +194,7 @@ public static String switchWorlds(){
         if (hours < 1) {
             return String.format("%02d Minutes", minutes, seconds);
         } else {
-            return String.format("%02d:%02d:%02d", hours, minutes);
+            return String.format("%02d:%02d", hours, minutes);
         }
 
     }
@@ -236,11 +236,11 @@ public static String switchWorlds(){
             //api met ints ne existe op 1.8
 
 
-            if(getwinner() == "Blue"){
-                p.sendTitle(ChatColor.BLUE + "" + ChatColor.BOLD + "Blue " + ChatColor.RESET + ChatColor.GRAY + "has won!", "");
-            }else{
-                p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Red " + ChatColor.RESET + ChatColor.GRAY + "has won!", "");
-            }
+//            if(getwinner() == "Blue"){
+//                p.sendTitle(ChatColor.BLUE + "" + ChatColor.BOLD + "Blue " + ChatColor.RESET + ChatColor.GRAY + "has won!", "");
+//            }else{
+//                p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Red " + ChatColor.RESET + ChatColor.GRAY + "has won!", "");
+//            }
 
 
             //  p.teleport(RotationManager.GetCurrentMap().getLocation("Spawn"));
@@ -256,10 +256,10 @@ public static String switchWorlds(){
             String query = "";
             if (TeamManager.getblue().contains(p) && getwinner() == "Blue") {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 1, 0) ON DUPLICATE KEY UPDATE wins = wins + 1";
-                p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Red " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.GREEN + "You win!");
+                p.sendTitle(ChatColor.BLUE + "" + ChatColor.BOLD + "Blue " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.GREEN + "You win!");
             } else if (TeamManager.getblue().contains(p) && getwinner() == "Red") {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 0, 1) ON DUPLICATE KEY UPDATE loses = loses + 1";
-                p.sendTitle(ChatColor.BLUE + "" + ChatColor.BOLD + "Blue " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.RED + "Better luck next time");
+                p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Red " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.RED + "Better luck next time");
             }else if (TeamManager.getred().contains(p) && getwinner() == "Red") {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 1, 0) ON DUPLICATE KEY UPDATE wins = wins + 1";
                 p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Red " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.GREEN + "You win!");
@@ -291,28 +291,13 @@ public static String switchWorlds(){
                 red1broken = false;
                 red2broken = false;
                 red3broken = false;
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    Location nextmap = RotationManager.GetNextMap().getLocation("Spawn");
-                    nextmap.setWorld(getNextMVBukkitWorld());
-                    p.teleport(nextmap);
 
-                    p.getInventory().setHelmet(null);
-                    p.getInventory().setChestplate(null);
-                    p.getInventory().setLeggings(null);
-                    p.getInventory().setBoots(null);
-                    p.getInventory().clear();
-                    p.setGameMode(GameMode.SURVIVAL);
-
-                    p.setHealth(20);
-                    p.setFoodLevel(20);
-
-                }
 
                 MatchManager.resetmap();
 
 
             }
-        }.runTaskLater(Main.plugin, 600);
+        }.runTaskLater(Main.plugin, 100);
 
     }
 
@@ -365,6 +350,27 @@ public static String switchWorlds(){
                 Bukkit.broadcastMessage("§9Reset done.");
                 MatchManager.switchWorlds();
                 RotationManager.upindex();
+
+
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    Location nextmap = RotationManager.GetCurrentMap().getLocation("Spawn");
+                    nextmap.setWorld(getCurrentMVBukkitWorld());
+                    p.teleport(nextmap);
+
+                    p.getInventory().setHelmet(null);
+                    p.getInventory().setChestplate(null);
+                    p.getInventory().setLeggings(null);
+                    p.getInventory().setBoots(null);
+                    p.getInventory().clear();
+                    p.setGameMode(GameMode.SURVIVAL);
+
+                    p.setHealth(20);
+                    p.setFoodLevel(20);
+
+                }
+
+
+
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     ItemStack i = new ItemStack(Material.COMPASS);
                     ItemMeta meta = i.getItemMeta();
@@ -375,7 +381,7 @@ public static String switchWorlds(){
                 startgame();
 
             }
-        }.runTaskLater(Main.plugin, 40);
+        }.runTaskLater(Main.plugin, 200);
 
 
     }
