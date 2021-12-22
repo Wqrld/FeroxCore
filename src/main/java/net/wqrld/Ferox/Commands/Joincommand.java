@@ -63,7 +63,7 @@ public class Joincommand implements CommandExecutor, Listener {
     //https://i.wqrld.net/Wqrld_ei
     //https://i.wqrld.net/Wqrld_eY
     public void joinmessage(CommandSender sender) {
-        Integer spectators = Bukkit.getOnlinePlayers().size() - TeamManager.getblue().size() - TeamManager.getred().size();
+        int spectators = Bukkit.getOnlinePlayers().size() - TeamManager.getblue().size() - TeamManager.getred().size();
         sender.sendMessage("§7§m§l---------------- §r§cFerox§6Mc§7§m§l ----------------");
         sender.sendMessage("§cRed: " + TeamManager.getred().size() + " §r§8| §9blue: " + TeamManager.getblue().size() + " §r§8| §bspecators: " + spectators);
         sender.sendMessage("§lGoal: §r§7Destroy the enemy nexuses.");

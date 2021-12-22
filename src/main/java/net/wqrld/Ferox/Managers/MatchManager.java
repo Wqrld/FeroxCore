@@ -2,11 +2,6 @@ package net.wqrld.Ferox.Managers;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.api.MVWorldManager;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.Vector;
-import com.sk89q.worldedit.bukkit.BukkitUtil;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
-import net.wqrld.Ferox.Commands.Pastemap;
 import net.wqrld.Ferox.Main;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
@@ -17,11 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Duration;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -35,18 +26,20 @@ public class MatchManager {
     private static MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
 
     public static String getNextWorld(){
-        if(CurrentMVWorld == "world1"){
+        if(CurrentMVWorld.equals("world1")){
             return "world2";
         }else{
             return "world1";
         }
     }
 
-public static String switchWorlds(){
+public static void switchWorlds(){
+    Main.plugin.getServer().getConsoleSender().sendMessage("[F] CW to " + CurrentMVWorld);
+    Main.plugin.getServer().getConsoleSender().sendMessage("[F] NW to " + getNextWorld());
     CurrentMVWorld = getNextWorld();
+    Main.plugin.getServer().getConsoleSender().sendMessage("[F] switching to " + CurrentMVWorld);
     Main.plugin.getConfig().set("worldID", CurrentMVWorld);
     Main.plugin.saveConfig();
-    return CurrentMVWorld;
 }
 
     public static String getCurrentMVWorld() {
@@ -57,11 +50,12 @@ public static String switchWorlds(){
         return Bukkit.getWorld(CurrentMVWorld);
     }
 
-    public static World getNextMVBukkitWorld(){
-        return Bukkit.getWorld(getNextWorld());
-    }
+//    public static World getNextMVBukkitWorld(){
+//        return Bukkit.getWorld(getNextWorld());
+//    }
 
     public static void setCurrentMVWorld(String currentMVWorld) {
+        Main.plugin.getServer().getConsoleSender().sendMessage("[F] setCurrentMVWorld " + currentMVWorld);
         CurrentMVWorld = currentMVWorld;
         Main.plugin.getConfig().set("worldID", CurrentMVWorld);
         Main.plugin.saveConfig();
@@ -69,7 +63,7 @@ public static String switchWorlds(){
 
 
 
-    public static String CurrentMVWorld = Main.plugin.getConfig().getString("worldID");
+    public static String CurrentMVWorld;
 
 //TODO title on win / hotbar
     public static void setwinner(String winner) {
@@ -170,17 +164,17 @@ public static String switchWorlds(){
     public static boolean isBroken(String nexus) {
 //        Bukkit.getConsoleSender().sendMessage("requested nexus broken status of nexus: " + nexus);
 //        Bukkit.getConsoleSender().sendMessage("" + red1broken + " " + red2broken + " " + blue1broken + " " + blue2broken);
-        if (nexus.equalsIgnoreCase("rednexus1") && red1broken == true) {
+        if (nexus.equalsIgnoreCase("rednexus1") && red1broken) {
             return true;
-        } else if (nexus.equalsIgnoreCase("rednexus2") && red2broken == true) {
+        } else if (nexus.equalsIgnoreCase("rednexus2") && red2broken) {
             return true;
-        } else if (nexus.equalsIgnoreCase("bluenexus1") && blue1broken == true) {
+        } else if (nexus.equalsIgnoreCase("bluenexus1") && blue1broken) {
             return true;
-        } else if (nexus.equalsIgnoreCase("bluenexus2") && blue2broken == true) {
+        } else if (nexus.equalsIgnoreCase("bluenexus2") && blue2broken) {
             return true;
-        } else if (nexus.equalsIgnoreCase("rednexus3") && red3broken == true) {
+        } else if (nexus.equalsIgnoreCase("rednexus3") && red3broken) {
             return true;
-        } else if (nexus.equalsIgnoreCase("bluenexus3") && blue3broken == true) {
+        } else if (nexus.equalsIgnoreCase("bluenexus3") && blue3broken) {
             return true;
         } else {
             return false;
@@ -254,16 +248,16 @@ public static String switchWorlds(){
             //https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fredditpublic.com%2Fimages%2Fb%2Fb2%2FItems_slot_number.png&f=1
             UUID uuid = p.getUniqueId();
             String query = "";
-            if (TeamManager.getblue().contains(p) && getwinner() == "Blue") {
+            if (TeamManager.getblue().contains(p) && getwinner().equals("Blue")) {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 1, 0) ON DUPLICATE KEY UPDATE wins = wins + 1";
                 p.sendTitle(ChatColor.BLUE + "" + ChatColor.BOLD + "Blue " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.GREEN + "You win!");
-            } else if (TeamManager.getblue().contains(p) && getwinner() == "Red") {
+            } else if (TeamManager.getblue().contains(p) && getwinner().equals("Red")) {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 0, 1) ON DUPLICATE KEY UPDATE loses = loses + 1";
                 p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Red " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.RED + "Better luck next time");
-            }else if (TeamManager.getred().contains(p) && getwinner() == "Red") {
+            }else if (TeamManager.getred().contains(p) && getwinner().equals("Red")) {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 1, 0) ON DUPLICATE KEY UPDATE wins = wins + 1";
                 p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Red " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.GREEN + "You win!");
-            }else if (TeamManager.getred().contains(p) && getwinner() == "Blue") {
+            }else if (TeamManager.getred().contains(p) && getwinner().equals("Blue")) {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 0, 1) ON DUPLICATE KEY UPDATE loses = loses + 1";
                 p.sendTitle(ChatColor.BLUE + "" + ChatColor.BOLD + "Blue " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.RED + "Better luck next time");
             }
@@ -311,11 +305,11 @@ public static String switchWorlds(){
 
         MVWorldManager worldManager = core.getMVWorldManager();
 
-        if(getCurrentMVWorld() == "world2"){
+        if(getCurrentMVWorld().equals("world2")){
 
             // Remove all players before deleting world
             for (Player p : Bukkit.getOnlinePlayers()) {
-                if(p.getWorld().getName() == "world1"){
+                if(p.getWorld().getName().equals("world1")){
                     p.teleport(new Location(Bukkit.getWorld("world2"), 0, 0, 0));
                 }
             }
@@ -328,7 +322,7 @@ public static String switchWorlds(){
 
             // Remove all players before deleting world
             for (Player p : Bukkit.getOnlinePlayers()) {
-                if(p.getWorld().getName() == "world2"){
+                if(p.getWorld().getName().equals("world2")){
                     p.teleport(new Location(Bukkit.getWorld("world1"), 0, 0, 0));
                 }
             }

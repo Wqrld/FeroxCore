@@ -21,7 +21,7 @@ public class Spawnprotection implements Listener {
                 e.getPlayer().sendMessage("§c§lPlease join using /join.");
                 e.setCancelled(true);
             }
-//spawn
+
             if (AreaUtils.iswithin(e.getBlock().getLocation(), RotationManager.GetCurrentMap().getLocation("spawnarea1"), RotationManager.GetCurrentMap().getLocation("spawnarea2"))) {
                 e.setCancelled(true);
                 e.getPlayer().sendMessage("You cannot build here");
