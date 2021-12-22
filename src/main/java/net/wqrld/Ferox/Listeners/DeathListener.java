@@ -6,10 +6,12 @@ import net.wqrld.Ferox.Managers.RotationManager;
 import net.wqrld.Ferox.Managers.TeamManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
@@ -72,9 +74,37 @@ public class DeathListener implements Listener {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
+        Entity killer = null;
+
+        if(FriendlyFire.lastHitter.get(e.getEntity()) != null){
+            e.getEntity().sendMessage(FriendlyFire.lastHitter.get(e.getEntity()).getName());
+            if (e.getEntity().getLastDamageCause() instanceof EntityDamageByBlockEvent) {
+                EntityDamageByBlockEvent cause = (EntityDamageByBlockEvent) e.getEntity().getLastDamageCause();
+                if (cause.getCause() == EntityDamageEvent.DamageCause.VOID) {
+                    Entity entity = FriendlyFire.lastHitter.get(e.getEntity());
+                    if (entity instanceof Player) {
+                        Player pl = (Player) entity;
+                        e.setDeathMessage(e.getEntity().getDisplayName() + " got yeeted into the void by " + pl.getName());
+                        FriendlyFire.lastHitter.remove(e.getEntity());
+                        killer = entity;
+                    }
+                }
+
+
+            }
+        }
         if(e.getEntity().getKiller() != null && e.getEntity().getKiller().getType() == EntityType.PLAYER){
-            UUID killeruuid = e.getEntity().getKiller().getUniqueId();
+            killer = e.getEntity().getKiller();
+        }
+        
+        if(killer != null || (e.getEntity().getKiller() != null && e.getEntity().getKiller().getType() == EntityType.PLAYER)){
+            UUID killeruuid;
+            if(killer != null){
+                killeruuid = killer.getUniqueId();
+            }else{
+                killeruuid = e.getEntity().getKiller().getUniqueId();
+            }
+
             try {
                 Main.statement.executeUpdate("INSERT INTO Stats VALUES ('" + killeruuid + "', 1, 0, 0, 0, 0, 0, 0, 0, 0) ON DUPLICATE KEY UPDATE kills = kills + 1");
             } catch (SQLException ex) {
@@ -83,12 +113,16 @@ public class DeathListener implements Listener {
         }
 
         e.setDeathMessage(e.getDeathMessage().replace(e.getEntity().getPlayer().getDisplayName(), getColor(e.getEntity()) + e.getEntity().getPlayer().getDisplayName() + "§7"));
-//TODO eigen naam altijd bold maken / eigen kill messages bold
+            //TODO eigen naam altijd bold maken / eigen kill messages bold
 
-        if(e.getEntity().getKiller() != null && e.getEntity().getKiller().getType() == EntityType.PLAYER){
-            String killerUserName = e.getEntity().getKiller().getPlayer().getName();
-            e.setDeathMessage(e.getDeathMessage().replace(killerUserName, getColor(e.getEntity().getKiller().getPlayer()) + killerUserName + "§7"));
-
+        if(killer != null || (e.getEntity().getKiller() != null && e.getEntity().getKiller().getType() == EntityType.PLAYER)){
+            if(killer == null){
+                killer = e.getEntity().getKiller();
+            }
+            if(killer instanceof Player) {
+                String killerUserName = killer.getName();
+                e.setDeathMessage(e.getDeathMessage().replace(killerUserName, getColor((Player) killer) + killerUserName + "§7"));
+            }
         }
 
     }
