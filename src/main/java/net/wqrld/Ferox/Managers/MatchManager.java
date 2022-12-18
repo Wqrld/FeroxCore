@@ -162,8 +162,6 @@ public static void switchWorlds(){
     }
 
     public static boolean isBroken(String nexus) {
-//        Bukkit.getConsoleSender().sendMessage("requested nexus broken status of nexus: " + nexus);
-//        Bukkit.getConsoleSender().sendMessage("" + red1broken + " " + red2broken + " " + blue1broken + " " + blue2broken);
         if (nexus.equalsIgnoreCase("rednexus1") && red1broken) {
             return true;
         } else if (nexus.equalsIgnoreCase("rednexus2") && red2broken) {
@@ -184,7 +182,6 @@ public static void switchWorlds(){
     private static String formatDuration(long duration) {
         long hours = TimeUnit.MILLISECONDS.toHours(duration);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(duration) % 60;
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(duration) % 60;
         if (hours < 1) {
             return String.format("%02d Minutes", minutes);
         } else {
@@ -193,7 +190,7 @@ public static void switchWorlds(){
 
     }
 
-    public static String getNexusStatusses() {
+    public static String getNexusStatuses() {
         return "" + red1broken + " " + red2broken + " " + blue1broken + " " + blue2broken;
     }
 
@@ -217,27 +214,14 @@ public static void switchWorlds(){
     }
 
     public static void endgame() {
-        ItemStack i = new ItemStack(Material.COMPASS);
-        ItemMeta meta = i.getItemMeta();
-        meta.setDisplayName(ChatColor.RESET + "Click to join");
-        i.setItemMeta(meta);
-        //lock joining
+
+        // Stop people from joining
         gamestarted = false;
+
         Bukkit.broadcastMessage("§9Game ended");
 
+        // Reset all players
         for (Player p : Bukkit.getOnlinePlayers()) {
-
-            //api met ints ne existe op 1.8
-
-
-//            if(getwinner() == "Blue"){
-//                p.sendTitle(ChatColor.BLUE + "" + ChatColor.BOLD + "Blue " + ChatColor.RESET + ChatColor.GRAY + "has won!", "");
-//            }else{
-//                p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Red " + ChatColor.RESET + ChatColor.GRAY + "has won!", "");
-//            }
-
-
-            //  p.teleport(RotationManager.GetCurrentMap().getLocation("Spawn"));
 
             p.getInventory().setHelmet(null);
             p.getInventory().setChestplate(null);
@@ -245,7 +229,7 @@ public static void switchWorlds(){
             p.getInventory().setBoots(null);
             p.getInventory().clear();
             p.setGameMode(GameMode.SPECTATOR);
-            //https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fredditpublic.com%2Fimages%2Fb%2Fb2%2FItems_slot_number.png&f=1
+
             UUID uuid = p.getUniqueId();
             String query = "";
             if (TeamManager.getblue().contains(p) && getwinner().equals("Blue")) {
@@ -254,10 +238,10 @@ public static void switchWorlds(){
             } else if (TeamManager.getblue().contains(p) && getwinner().equals("Red")) {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 0, 1) ON DUPLICATE KEY UPDATE loses = loses + 1";
                 p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Red " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.RED + "Better luck next time");
-            }else if (TeamManager.getred().contains(p) && getwinner().equals("Red")) {
+            } else if (TeamManager.getred().contains(p) && getwinner().equals("Red")) {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 1, 0) ON DUPLICATE KEY UPDATE wins = wins + 1";
                 p.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "Red " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.GREEN + "You win!");
-            }else if (TeamManager.getred().contains(p) && getwinner().equals("Blue")) {
+            } else if (TeamManager.getred().contains(p) && getwinner().equals("Blue")) {
                 query = "INSERT INTO Stats VALUES ('" + uuid + "', 0, 0, 0, 0, 0, 0, 0, 0, 1) ON DUPLICATE KEY UPDATE loses = loses + 1";
                 p.sendTitle(ChatColor.BLUE + "" + ChatColor.BOLD + "Blue " + ChatColor.RESET + ChatColor.GRAY + "has won!", ChatColor.RED + "Better luck next time");
             }
@@ -306,12 +290,10 @@ public static void switchWorlds(){
     }
 
     public static void resetmap() {
-        //reset map and then
 
         Bukkit.broadcastMessage("§9resetting map");
         Bukkit.broadcastMessage("§9Last map: " + RotationManager.GetCurrentMap().getName());
         Bukkit.broadcastMessage("§9Next map: " + RotationManager.GetNextMap().getName());
-
 
         MVWorldManager worldManager = core.getMVWorldManager();
 
@@ -325,8 +307,9 @@ public static void switchWorlds(){
             }
 
             worldManager.deleteWorld("world1");
-            //copied, newname
             worldManager.cloneWorld(RotationManager.GetNextMap().getName(), "world1");
+
+            // Fix alias as to not interfere with real map
             worldManager.getMVWorld("world1").setAlias("world1");
         }else{
 
@@ -338,14 +321,12 @@ public static void switchWorlds(){
             }
 
             worldManager.deleteWorld("world2");
-            //copied, newname
             worldManager.cloneWorld(RotationManager.GetNextMap().getName(), "world2");
+
+            // Fix alias as to not interfere with real map
             worldManager.getMVWorld("world2").setAlias("world2");
 
         }
-
-
-      //  Pastemap.pastemap();
 
 
         new BukkitRunnable() {
@@ -355,9 +336,9 @@ public static void switchWorlds(){
                 MatchManager.switchWorlds();
                 RotationManager.upindex();
 
-
+                // Reset all players and send them to spawn
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    Location nextmap = RotationManager.GetCurrentMap().getLocation("Spawn");
+                    Location nextmap = RotationManager.GetCurrentMap().getSpawn();
                     nextmap.setWorld(getCurrentMVBukkitWorld());
                     p.teleport(nextmap);
 
@@ -371,17 +352,15 @@ public static void switchWorlds(){
                     p.setHealth(20);
                     p.setFoodLevel(20);
 
-                }
-
-
-
-                for (Player p : Bukkit.getOnlinePlayers()) {
+                    // Give the join compass
                     ItemStack i = new ItemStack(Material.COMPASS);
                     ItemMeta meta = i.getItemMeta();
                     meta.setDisplayName(ChatColor.RESET + "Click to join");
                     i.setItemMeta(meta);
                     p.getInventory().setItem(0, i);
+
                 }
+
                 startgame();
 
             }
@@ -390,8 +369,11 @@ public static void switchWorlds(){
 
     }
 
+    /**
+     * Opens the game up to new joins
+     */
     public static void startgame() {
-        //open up joining
+        // Open up joining
         gamestarted = true;
         matchstart = new Date();
         Bukkit.broadcastMessage("§9Game started");

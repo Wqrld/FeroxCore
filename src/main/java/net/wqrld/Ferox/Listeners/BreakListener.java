@@ -14,26 +14,18 @@ import org.bukkit.inventory.ItemStack;
 
 public class BreakListener implements Listener {
 
-    private Location getLoc(String NexusName){
-        Location currentMap = RotationManager.GetCurrentMap().getLocation(NexusName);
-        currentMap.setWorld(MatchManager.getCurrentMVBukkitWorld());
-        return currentMap;
-    }
-
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
+        Location l = e.getBlock().getLocation();
         if (e.getBlock().getType() == Material.WEB) {
-            e.getBlock().setType(Material.AIR);
-            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), new ItemStack(Material.WEB, 1));
+            e.setDropItems(false);
+            e.getBlock().getWorld().dropItemNaturally(l, new ItemStack(Material.WEB, 1));
         }
 
-
-        //TODO on end op game, tps you to good location in the ended map's world
-
         if (e.getBlock().getType() == Material.OBSIDIAN) {
+            Integer nexuscount = RotationManager.GetCurrentMap().getNexuscount();
 
-
-            if (e.getBlock().getLocation().equals(getLoc("rednexus"))) {
+            if (l.equals(RotationManager.GetCurrentMap().getRednexus())) {
 
                 if (TeamManager.getblue().contains(e.getPlayer())) {
                     ProcessRedNexusBroken(e, "rednexus1");
@@ -41,7 +33,7 @@ public class BreakListener implements Listener {
                     e.getPlayer().sendMessage("nope");
                     e.setCancelled(true);
                 }
-            } else if (RotationManager.GetCurrentMap().getNexuscount() >= 2 && e.getBlock().getLocation().equals(getLoc("rednexus2"))) {
+            } else if (nexuscount >= 2 && l.equals(RotationManager.GetCurrentMap().getRednexus2())) {
 
                 if (TeamManager.getblue().contains(e.getPlayer())) {
                     ProcessRedNexusBroken(e, "rednexus2");
@@ -49,7 +41,7 @@ public class BreakListener implements Listener {
                     e.getPlayer().sendMessage("nope");
                     e.setCancelled(true);
                 }
-            } else if (RotationManager.GetCurrentMap().getNexuscount() >= 3 && e.getBlock().getLocation().equals(getLoc("rednexus3"))) {
+            } else if (nexuscount >= 3 && l.equals(RotationManager.GetCurrentMap().getRednexus3())) {
 
                 if (TeamManager.getblue().contains(e.getPlayer())) {
                     ProcessRedNexusBroken(e, "rednexus3");
@@ -58,7 +50,7 @@ public class BreakListener implements Listener {
                     e.setCancelled(true);
                 }
 
-            } else if (e.getBlock().getLocation().equals(getLoc("bluenexus"))) {
+            } else if (l.equals(RotationManager.GetCurrentMap().getBluenexus())) {
 
                 if (TeamManager.getred().contains(e.getPlayer())) {
                     ProcessBlueNexusBroken(e, "bluenexus1");
@@ -66,7 +58,7 @@ public class BreakListener implements Listener {
                     e.getPlayer().sendMessage("nope");
                     e.setCancelled(true);
                 }
-            } else if (RotationManager.GetCurrentMap().getNexuscount() >= 2 && e.getBlock().getLocation().equals(getLoc("bluenexus2"))) {
+            } else if (nexuscount >= 2 && l.equals(RotationManager.GetCurrentMap().getBluenexus2())) {
 
                 if (TeamManager.getred().contains(e.getPlayer())) {
                     ProcessBlueNexusBroken(e, "bluenexus2");
@@ -75,7 +67,7 @@ public class BreakListener implements Listener {
                     e.setCancelled(true);
                 }
 
-            } else if (RotationManager.GetCurrentMap().getNexuscount() >= 3 && e.getBlock().getLocation().equals(getLoc("bluenexus3"))) {
+            } else if (nexuscount >= 3 && l.equals(RotationManager.GetCurrentMap().getBluenexus3())) {
 
                 if (TeamManager.getred().contains(e.getPlayer())) {
                     ProcessBlueNexusBroken(e, "bluenexus3");
@@ -84,8 +76,6 @@ public class BreakListener implements Listener {
                     e.setCancelled(true);
                 }
             }
-
-            //     e.getPlayer().sendMessage(e.getBlock().getLocation().toString());
 
 
         }

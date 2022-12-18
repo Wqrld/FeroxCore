@@ -18,14 +18,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class Joincommand implements CommandExecutor, Listener {
-   // World world = Bukkit.getWorld("Spawn");
-    //Location loc = new Location(world, 648, 26, -523);
-     //   e.getPlayer().teleport(loc);
 
-    public void addtored(CommandSender sender){
+    public void addtored(CommandSender sender) {
         TeamManager.getred().add((Player) sender);
 
-        Location currentMap = RotationManager.GetCurrentMap().getLocation("redspawn");
+        Location currentMap = RotationManager.GetCurrentMap().getRedspawn();
         currentMap.setWorld(MatchManager.getCurrentMVBukkitWorld());
         ((Player) sender).teleport(currentMap);
 
@@ -39,10 +36,11 @@ public class Joincommand implements CommandExecutor, Listener {
         GameStatTracker.blocksplaced.put((Player) sender, 0);
 
     }
-    public void addtoblue(CommandSender sender){
+
+    public void addtoblue(CommandSender sender) {
         TeamManager.getblue().add((Player) sender);
 
-        Location currentMap = RotationManager.GetCurrentMap().getLocation("bluespawn");
+        Location currentMap = RotationManager.GetCurrentMap().getBluespawn();
         currentMap.setWorld(MatchManager.getCurrentMVBukkitWorld());
         ((Player) sender).teleport(currentMap);
 
@@ -71,7 +69,7 @@ public class Joincommand implements CommandExecutor, Listener {
         }
     }
 
-
+    // Some ideas on how to make things look:
     //https://i.wqrld.net/Wqrld_ei
     //https://i.wqrld.net/Wqrld_eY
     public void joinmessage(CommandSender sender) {
@@ -98,21 +96,20 @@ public class Joincommand implements CommandExecutor, Listener {
         random.setItemMeta(meta);
         inv.setItem(4, random);
 
-if(sender.isOp()) {
+        if (sender.isOp()) {
 
+            ItemStack red = new ItemStack(Material.WOOL, 1, (byte) 14);
+            ItemMeta redmeta = red.getItemMeta();
+            redmeta.setDisplayName("§c§lJoin RED");
+            red.setItemMeta(redmeta);
+            inv.setItem(2, red);
 
-    ItemStack red = new ItemStack(Material.WOOL, 1, (byte) 14);
-    ItemMeta redmeta = red.getItemMeta();
-    redmeta.setDisplayName("§c§lJoin RED");
-    red.setItemMeta(redmeta);
-    inv.setItem(2, red);
-
-    ItemStack blue = new ItemStack(Material.WOOL, 1, (byte) 11);
-    ItemMeta bluemeta = blue.getItemMeta();
-    bluemeta.setDisplayName("§9§lJoin blue");
-    blue.setItemMeta(bluemeta);
-    inv.setItem(6, blue);
-}
+            ItemStack blue = new ItemStack(Material.WOOL, 1, (byte) 11);
+            ItemMeta bluemeta = blue.getItemMeta();
+            bluemeta.setDisplayName("§9§lJoin blue");
+            blue.setItemMeta(bluemeta);
+            inv.setItem(6, blue);
+        }
 
 
         ((Player) sender).openInventory(inv);
@@ -124,38 +121,37 @@ if(sender.isOp()) {
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getInventory().getTitle().equalsIgnoreCase("Join")) {
 
-          if(e.getCurrentItem().getType() == Material.WOOL) {
-              if (e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getDurability() == 0) {
-                  e.getWhoClicked().getInventory().clear();
-                  e.getWhoClicked().setGameMode(GameMode.SURVIVAL);
-                  e.getWhoClicked().setHealth(20);
-                  autojoin(e.getWhoClicked());
-                  joinmessage(e.getWhoClicked());
-              } else if (e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getDurability() == 14) {
-                  if (e.getWhoClicked().isOp()) {
-                      e.getWhoClicked().getInventory().clear();
-                      e.getWhoClicked().setGameMode(GameMode.SURVIVAL);
-                      e.getWhoClicked().setHealth(20);
-                      addtored(e.getWhoClicked());
-                      joinmessage(e.getWhoClicked());
-                  } else {
-                      e.getWhoClicked().sendMessage("§cYou do not have the required rank to do this.");
-                  }
-              } else if (e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getDurability() == 11) {
-                  if (e.getWhoClicked().isOp()) {
-                      e.getWhoClicked().getInventory().clear();
-                      e.getWhoClicked().setGameMode(GameMode.SURVIVAL);
-                      e.getWhoClicked().setHealth(20);
-                      addtoblue(e.getWhoClicked());
-                      joinmessage(e.getWhoClicked());
-                  } else {
-                      e.getWhoClicked().sendMessage("§cYou do not have the required rank to do this.");
-                  }
-              }
-              e.setCancelled(true);
-              e.getWhoClicked().closeInventory();
-          }
-
+            if (e.getCurrentItem().getType() == Material.WOOL) {
+                if (e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getDurability() == 0) {
+                    e.getWhoClicked().getInventory().clear();
+                    e.getWhoClicked().setGameMode(GameMode.SURVIVAL);
+                    e.getWhoClicked().setHealth(20);
+                    autojoin(e.getWhoClicked());
+                    joinmessage(e.getWhoClicked());
+                } else if (e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getDurability() == 14) {
+                    if (e.getWhoClicked().isOp()) {
+                        e.getWhoClicked().getInventory().clear();
+                        e.getWhoClicked().setGameMode(GameMode.SURVIVAL);
+                        e.getWhoClicked().setHealth(20);
+                        addtored(e.getWhoClicked());
+                        joinmessage(e.getWhoClicked());
+                    } else {
+                        e.getWhoClicked().sendMessage("§cYou do not have the required rank to do this.");
+                    }
+                } else if (e.getCurrentItem().getType() == Material.WOOL && e.getCurrentItem().getDurability() == 11) {
+                    if (e.getWhoClicked().isOp()) {
+                        e.getWhoClicked().getInventory().clear();
+                        e.getWhoClicked().setGameMode(GameMode.SURVIVAL);
+                        e.getWhoClicked().setHealth(20);
+                        addtoblue(e.getWhoClicked());
+                        joinmessage(e.getWhoClicked());
+                    } else {
+                        e.getWhoClicked().sendMessage("§cYou do not have the required rank to do this.");
+                    }
+                }
+                e.setCancelled(true);
+                e.getWhoClicked().closeInventory();
+            }
 
 
         }

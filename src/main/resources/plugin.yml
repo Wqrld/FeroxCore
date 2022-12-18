@@ -20,9 +20,6 @@ commands:
    stats:
       description: stats
       usage: /stats
-   clearmap:
-      description: clearmap
-      usage: /clearmap
    setup:
       description: setup
       usage: /setup

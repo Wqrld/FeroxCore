@@ -23,9 +23,7 @@ public class ChatHandler implements Listener {
         }
 
         if (event.getMessage().contains("%")) {
-            event.getPlayer().sendMessage("Please don't use a % sign in your message.");
-            event.setCancelled(true);
-            return;
+            event.setMessage(event.getMessage().replaceAll("%", "%%"));
         }
         Player player = event.getPlayer();
         String color = "§f";
@@ -39,8 +37,6 @@ public class ChatHandler implements Listener {
 
         String oldformat = color + "§r" + color + event.getPlayer().getDisplayName() + "§7> §f";
         String format = PlaceholderAPI.setPlaceholders(event.getPlayer(), oldformat) + event.getMessage();
-//        format = format.replace("%§", "%%§");
-        //.replace("&", "§");
         event.setFormat(format);
         if (event.getMessage().equalsIgnoreCase("gg")) {
             new BukkitRunnable() {

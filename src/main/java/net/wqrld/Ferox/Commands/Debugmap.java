@@ -39,7 +39,7 @@ public class Debugmap implements CommandExecutor {
             sender.sendMessage("---------------------------------------------------");
             sender.sendMessage("looking at:" + player.getTargetBlock(null, 20).getLocation().toString());
             sender.sendMessage("---------nexusstatusses-----------------------------");
-            sender.sendMessage(MatchManager.getNexusStatusses());
+            sender.sendMessage(MatchManager.getNexusStatuses());
             sender.sendMessage("getCurrentMVWorld: " + MatchManager.getCurrentMVWorld());
             sender.sendMessage("config mysqlhost");
             sender.sendMessage(Main.plugin.getConfig().getString("mysqlhost"));

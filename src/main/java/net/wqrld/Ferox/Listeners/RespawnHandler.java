@@ -33,20 +33,20 @@ public class RespawnHandler implements Listener {
             @Override
             public void run() {
                 if (TeamManager.getred().contains(e.getPlayer())) {
-                    Location nextmap = RotationManager.GetCurrentMap().getLocation("redspawn");
+                    Location nextmap = RotationManager.GetCurrentMap().getRedspawn();
                     nextmap.setWorld(MatchManager.getCurrentMVBukkitWorld());
                     e.getPlayer().teleport(nextmap);
                     MatchManager.givearmor(e.getPlayer(), Color.RED);
                     MatchManager.giveitems(e.getPlayer());
                 } else if (TeamManager.getblue().contains(e.getPlayer())) {
-                    Location nextmap = RotationManager.GetCurrentMap().getLocation("bluespawn");
+                    Location nextmap = RotationManager.GetCurrentMap().getBluespawn();
                     nextmap.setWorld(MatchManager.getCurrentMVBukkitWorld());
                     e.getPlayer().teleport(nextmap);
                     MatchManager.givearmor(e.getPlayer(), Color.BLUE);
                     MatchManager.giveitems(e.getPlayer());
                 } else {
 
-                    Location nextmap = RotationManager.GetCurrentMap().getLocation("Spawn");
+                    Location nextmap = RotationManager.GetCurrentMap().getSpawn();
                     nextmap.setWorld(MatchManager.getCurrentMVBukkitWorld());
                     e.getPlayer().teleport(nextmap);
 
@@ -54,7 +54,7 @@ public class RespawnHandler implements Listener {
                     ItemMeta meta = i.getItemMeta();
                     meta.setDisplayName(ChatColor.RESET + "Click to join");
                     i.setItemMeta(meta);
-                    //https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Fredditpublic.com%2Fimages%2Fb%2Fb2%2FItems_slot_number.png&f=1
+
                     e.getPlayer().getInventory().setItem(0, i);
 
                 }

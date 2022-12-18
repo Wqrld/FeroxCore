@@ -23,7 +23,7 @@
     </repository>
     <repository>
         <id>placeholderapi</id>
-        <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
     </repository>
     <repository>
         <id>spigot-repo</id>
@@ -31,11 +31,11 @@
     </repository>
     <repository>
         <id>fawe-repo</id>
-        <url>http://ci.athion.net/job/FastAsyncWorldEdit/ws/mvn/</url>
+        <url>https://ci.athion.net/job/FastAsyncWorldEdit/ws/mvn/</url>
     </repository>
     <repository>
         <id>worldedit-repo</id>
-        <url>http://maven.sk89q.com/repo/</url>
+        <url>https://maven.sk89q.com/repo/</url>
     </repository>
     <repository>
         <id>jcenter</id>

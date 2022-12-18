@@ -27,32 +27,17 @@ public class JoinListener implements Listener{
     public void onPlayerJoin(PlayerJoinEvent e) {
         e.getPlayer().sendMessage("You were sent to spawn");
 
-        //Location loc = new Location(world, 89.5, 28, -90.5, 90, 1);
-        //e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("spawn"));
-
-        Location currentMap = RotationManager.GetCurrentMap().getLocation("spawn");
-        if(e.getPlayer().getDisplayName().equalsIgnoreCase("wqrld")){
-            e.getPlayer().sendMessage(currentMap.toString());
-        }
+        Location currentMap = RotationManager.GetCurrentMap().getSpawn();
 
         currentMap.setWorld(MatchManager.getCurrentMVBukkitWorld());
         e.getPlayer().teleport(currentMap);
 
         e.getPlayer().setGameMode(GameMode.SURVIVAL);
-        /*
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                e.getPlayer().teleport(RotationManager.GetCurrentMap().getLocation("spawn"));
-            }
-        }.
 
-                runTaskLater(Main.plugin, 20);
-//§✅✘✔
+        // Some icons for the scoreboard
+        // §✅✘✔
 
-         */
-
-
+        // Bypass for Xirial
         if (!e.getPlayer().getName().equalsIgnoreCase("Xirial")) {
             e.getPlayer().getInventory().clear();
             e.getPlayer().getInventory().setHelmet(null);
@@ -60,6 +45,9 @@ public class JoinListener implements Listener{
             e.getPlayer().getInventory().setLeggings(null);
             e.getPlayer().getInventory().setBoots(null);
         }
+
+
+
         ItemStack i = new ItemStack(Material.COMPASS);
         ItemMeta meta = i.getItemMeta();
         meta.setDisplayName(ChatColor.RESET + "Click to join");

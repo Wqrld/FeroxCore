@@ -40,7 +40,7 @@ public class DeathListener implements Listener {
         if(e.getEntityType() == EntityType.PLAYER){
             if(!TeamManager.getblue().contains((Player) e.getEntity()) && !TeamManager.getred().contains((Player) e.getEntity())){
                 e.setCancelled(true);
-                Location currentMap = RotationManager.GetCurrentMap().getLocation("Spawn");
+                Location currentMap = RotationManager.GetCurrentMap().getSpawn();
                 currentMap.setWorld(MatchManager.getCurrentMVBukkitWorld());
                 e.getEntity().teleport(currentMap);
             }
